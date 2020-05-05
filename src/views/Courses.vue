@@ -1,0 +1,142 @@
+<template>
+  <div>
+    <v-card class="animated fadeInDown faster">
+      <v-list-item-group>
+        <transition-group enter-active-class="animated fadeIn fast">
+          <div v-for="course in courses" :key="course.id">
+            <v-list-item @click="openSelectedCourseDialog(course)">
+              <v-list-item-content>
+                <v-list-item-title>{{ course.name }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-divider />
+          </div>
+        </transition-group>
+      </v-list-item-group>
+    </v-card>
+    <v-card-text class="animated fadeInLeft faster">
+      <i>Tap the + icon to add a new course.</i>
+    </v-card-text>
+    <v-btn
+      fixed
+      fab
+      dark
+      color="secondary"
+      class="fab animated slideInUp faster"
+      @click="openNewCourseDialog"
+    >
+      <v-icon>add</v-icon>
+    </v-btn>
+
+    <!-- Add New Course Dialog Box -->
+    <DialogBox
+      :open="newCourseDialog"
+      title="New Course"
+      proceedText="Add"
+      @cancel="closeNewCourseDialog"
+      @proceed="addNewCourse"
+    >
+      <v-form ref="courseForm">
+        <v-text-field
+          v-model="newCourse.name"
+          label="e.g. Anatomy, Patho"
+          :rules="requiredField"
+          autofocus
+          color="accent"
+        />
+      </v-form>
+    </DialogBox>
+
+    <!-- Make sure a course is selected before rendering to avoid errors -->
+    <div v-if="courseIsSelected">
+      <!-- Open Selected Course -->
+      <SelectedCourse :open="selectedCourseDialog" :courseId="selectedCourse.id">
+        <template v-slot:toolbar-items>
+          <v-icon class="mr-2" @click="confirmDeleteDialog = true">delete</v-icon>
+          <v-btn text @click="closeSelectedCourseDialog">Done</v-btn>
+        </template>
+      </SelectedCourse>
+
+      <!-- Confirm Delete Dialog -->
+      <DialogBox
+        :open="confirmDeleteDialog"
+        :title="'Delete ' + selectedCourse.name + '?'"
+        proceedText="Ok"
+        @cancel="deleteCourse(false)"
+        @proceed="deleteCourse(true)"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import DialogBox from "@/components/DialogBox.vue";
+import store from "@/store";
+import SelectedCourse from "@/components/SelectedCourse.vue";
+
+export default {
+  components: { DialogBox, SelectedCourse },
+  data: () => ({
+    newCourse: {},
+    newCourseDialog: false,
+    selectedCourse: {},
+    selectedCourseDialog: false,
+    requiredField: [
+      v => (!!v && v.toString().length > 0) || "Enter course name."
+    ],
+    confirmDeleteDialog: false
+  }),
+  computed: {
+    courses() {
+      return store.state.courses;
+    },
+    courseIsSelected() {
+      return Object.keys(this.selectedCourse).length > 0;
+    }
+  },
+  methods: {
+    openNewCourseDialog() {
+      this.newCourseDialog = true;
+    },
+    closeNewCourseDialog() {
+      this.newCourseDialog = false;
+      this.newCourse = {};
+      this.$refs.courseForm.resetValidation();
+    },
+    addNewCourse() {
+      if (this.$refs.courseForm.validate()) {
+        this.newCourse.id =
+          Math.random()
+            .toString(36)
+            .substring(2) + Date.now().toString(36);
+        this.newCourse.syllabi = [];
+        this.$store.commit("addCourse", this.newCourse);
+        this.closeNewCourseDialog();
+      }
+    },
+    deleteCourse(answer) {
+      if (answer) {
+        this.confirmDeleteDialog = false;
+        this.closeSelectedCourseDialog();
+        this.$store.commit("deleteCourse", this.selectedCourse);
+      } else {
+        this.confirmDeleteDialog = false;
+      }
+    },
+    openSelectedCourseDialog(course) {
+      this.selectedCourse = course;
+      this.selectedCourseDialog = true;
+    },
+    closeSelectedCourseDialog() {
+      this.selectedCourseDialog = false;
+    }
+  }
+};
+</script>
+
+<style scoped>
+.fab {
+  bottom: 75px;
+  right: 20px;
+}
+</style>
