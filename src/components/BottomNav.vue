@@ -1,17 +1,14 @@
 <template>
-  <v-bottom-navigation app grow v-model="bottomNav" color="accent">
-    <v-btn value="transmute" class="fill" @click="reroute('/')">
-      <span>Transmute</span>
-      <v-icon>assignment</v-icon>
-    </v-btn>
-
-    <v-btn value="courses" class="fill" @click="reroute('/courses')">
-      <span>Courses</span>
-      <v-icon>class</v-icon>
-    </v-btn>
-    <v-btn value="settings" class="fill" @click="reroute('/settings')">
-      <span>Settings</span>
-      <v-icon>settings</v-icon>
+  <v-bottom-navigation app grow v-model="selected" color="accent">
+    <v-btn
+      class="fill"
+      v-for="(link, index) in links"
+      :key="index"
+      :value="link.name"
+      @click="reroute(link.path)"
+    >
+      <span>{{ link.name }}</span>
+      <v-icon>{{ link.icon }}</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>
@@ -19,13 +16,18 @@
 <script>
 export default {
   data: () => ({
-    bottomNav: "transmute"
+    selected: "Transmute",
+    links: [
+      { name: "Transmute", icon: "assignment", path: "/" },
+      { name: "Courses", icon: "collections_bookmark", path: "/courses" },
+      { name: "Settings", icon: "settings", path: "/settings" },
+    ],
   }),
   methods: {
     reroute(path) {
-      this.$router.push(path).catch(err => {});
-    }
-  }
+      this.$router.push(path).catch((err) => {});
+    },
+  },
 };
 </script>
 

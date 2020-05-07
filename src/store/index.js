@@ -10,7 +10,8 @@ export default new Vuex.Store({
   },
   mutations: {
     addCourse(state, newCourse) {
-      state.courses.push(newCourse);
+      // Add new course at the beginning of the array
+      state.courses.unshift(newCourse);
     },
     updateCourse(state, updatedCourse) {
       const index = state.courses.findIndex(

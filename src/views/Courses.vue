@@ -1,18 +1,25 @@
 <template>
   <div>
     <v-card class="animated fadeInDown faster">
-      <v-list-item-group>
-        <transition-group enter-active-class="animated fadeIn fast">
-          <div v-for="course in courses" :key="course.id">
-            <v-list-item @click="openSelectedCourseDialog(course)">
+      <v-list>
+        <v-subheader>COURSES</v-subheader>
+        <div class="listScroll">
+          <transition-group enter-active-class="animated fadeIn fast">
+            <v-list-item
+              v-for="course in courses"
+              :key="course.id"
+              @click="openSelectedCourseDialog(course)"
+            >
+              <v-list-item-icon>
+                <v-icon>book</v-icon>
+              </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>{{ course.name }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-divider />
-          </div>
-        </transition-group>
-      </v-list-item-group>
+          </transition-group>
+        </div>
+      </v-list>
     </v-card>
     <v-card-text class="animated fadeInLeft faster">
       <i>Tap the + icon to add a new course.</i>
@@ -50,9 +57,14 @@
     <!-- Make sure a course is selected before rendering to avoid errors -->
     <div v-if="courseIsSelected">
       <!-- Open Selected Course -->
-      <SelectedCourse :open="selectedCourseDialog" :courseId="selectedCourse.id">
+      <SelectedCourse
+        :open="selectedCourseDialog"
+        :courseId="selectedCourse.id"
+      >
         <template v-slot:toolbar-items>
-          <v-icon class="mr-2" @click="confirmDeleteDialog = true">delete</v-icon>
+          <v-icon class="mr-2" @click="confirmDeleteDialog = true"
+            >delete</v-icon
+          >
           <v-btn text @click="closeSelectedCourseDialog">Done</v-btn>
         </template>
       </SelectedCourse>
@@ -82,9 +94,9 @@ export default {
     selectedCourse: {},
     selectedCourseDialog: false,
     requiredField: [
-      v => (!!v && v.toString().length > 0) || "Enter course name."
+      (v) => (!!v && v.toString().length > 0) || "Enter course name.",
     ],
-    confirmDeleteDialog: false
+    confirmDeleteDialog: false,
   }),
   computed: {
     courses() {
@@ -92,7 +104,7 @@ export default {
     },
     courseIsSelected() {
       return Object.keys(this.selectedCourse).length > 0;
-    }
+    },
   },
   methods: {
     openNewCourseDialog() {
@@ -129,8 +141,8 @@ export default {
     },
     closeSelectedCourseDialog() {
       this.selectedCourseDialog = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -138,5 +150,9 @@ export default {
 .fab {
   bottom: 75px;
   right: 20px;
+}
+.listScroll {
+  max-height: 58vh;
+  overflow-y: auto;
 }
 </style>
