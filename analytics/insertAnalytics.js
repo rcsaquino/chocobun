@@ -13,7 +13,8 @@ fs.readFile(gaPath, function(err, ga) {
     .toString()
     .replace(/(\s)/g, "")
     .replace("scriptasyncsrc", "script async src")
-    .replace("functiongtag", "function gtag");
+    .replace("functiongtag", "function gtag")
+    .replace("newDate", "new Date");
 
   // Get index.html from build folder
   fs.readFile(buildPath, function(err, data) {
