@@ -54,7 +54,7 @@
       </v-form>
     </DialogBox>
 
-    <!-- Make sure a course is selected before rendering to avoid errors -->
+    <!-- Check if a course is selected before rendering to avoid errors -->
     <div v-if="courseIsSelected">
       <!-- Open Selected Course -->
       <SelectedCourse

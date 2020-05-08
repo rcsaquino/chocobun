@@ -39,6 +39,7 @@ module.exports = {
     workboxOptions: {
       skipWaiting: true,
       navigateFallback: "index.html",
+      offlineGoogleAnalytics: true,
     },
   },
 };
