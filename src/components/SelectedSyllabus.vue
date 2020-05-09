@@ -24,7 +24,12 @@
                   />
                 </v-col>
                 <v-col align="end">
-                  <v-btn color="scoresBtn" @click="openNewScoreDialog" class="baseWidth" outlined >Add</v-btn>
+                  <v-btn
+                    color="scoresBtn"
+                    @click="openNewScoreDialog"
+                    class="baseWidth"
+                    outlined
+                  >Add</v-btn>
                   <v-btn
                     color="scoresBtn"
                     x-small

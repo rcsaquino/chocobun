@@ -11,18 +11,14 @@
     </div>
     <v-content v-else>
       <InstallInstructions v-show="swStatus === 'ready'" />
-      <div
-        v-show="swStatus !== 'ready'"
-        class="download-circle-container no-scroll"
-      >
+      <div v-show="swStatus !== 'ready'" class="download-circle-container no-scroll">
         <v-progress-circular
           class="download-circle"
           :indeterminate="swStatus !== 'Error!'"
           color="primary"
           size="200"
           width="5"
-          >{{ swStatus }}</v-progress-circular
-        >
+        >{{ swStatus }}</v-progress-circular>
       </div>
     </v-content>
   </v-app>
@@ -38,7 +34,7 @@ export default {
 
   components: {
     BottomNav,
-    InstallInstructions,
+    InstallInstructions
   },
 
   computed: {
@@ -54,7 +50,7 @@ export default {
     },
     swStatus() {
       return store.state.swStatus;
-    },
+    }
   },
 
   created() {
@@ -63,7 +59,7 @@ export default {
 
     // Hydrate store with localstorage
     const courses = JSON.parse(localStorage.getItem("courses"));
-    courses?.forEach((course) => {
+    courses?.forEach(course => {
       this.$store.commit("addCourse", course);
     });
 
@@ -75,7 +71,7 @@ export default {
         localStorage.setItem("courses", JSON.stringify(state.courses));
       }
     });
-  },
+  }
 };
 </script>
 

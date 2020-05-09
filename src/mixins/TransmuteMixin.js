@@ -62,7 +62,7 @@ export default {
     transmute_syllabus(syllabus, base) {
       let yourScore = 0;
       let totalItems = 0;
-      syllabus.scores.forEach(score => {
+      syllabus.scores.forEach((score) => {
         yourScore += +score.yourScore;
         totalItems += +score.totalItems;
       });
@@ -74,6 +74,6 @@ export default {
       // set transmuted grade to 0 if not a number
       isNaN(syllabus.transmutedGrade) && (syllabus.transmutedGrade = 0);
       return syllabus;
-    }
-  }
+    },
+  },
 };

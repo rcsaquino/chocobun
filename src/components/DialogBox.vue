@@ -28,28 +28,28 @@ export default {
   props: {
     open: {
       type: Boolean,
-      required: true,
+      required: true
     },
     title: {
       type: String,
-      default: "title",
+      default: "title"
     },
     proceedText: {
       type: String,
-      default: "Ok",
+      default: "Ok"
     },
     snackbarText: {
-      type: String,
+      type: String
     },
     snackbarTrigger: {
-      type: Number,
-    },
+      type: Number
+    }
   },
   data: () => ({ snackbar: false }),
   watch: {
     snackbarTrigger() {
       this.snackbar = true;
-    },
-  },
+    }
+  }
 };
 </script>

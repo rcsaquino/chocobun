@@ -18,9 +18,7 @@
         :rules="numbersOnly"
         color="accent"
       />
-      <v-btn class="mt-2" color="secondary" @click="transmuteScore"
-        >Transmute</v-btn
-      >
+      <v-btn class="mt-2" color="secondary" @click="transmuteScore">Transmute</v-btn>
     </v-form>
     <div class="mt-5">
       <p>{{ passingScore }}</p>
@@ -40,17 +38,17 @@ export default {
     baseChoices: ["65", "60", "50"],
     yourScore: "",
     totalItems: "",
-    numbersOnly: [(v) => (v && !isNaN(v)) || "Please input numbers."],
+    numbersOnly: [v => (v && !isNaN(v)) || "Please input numbers."],
     passingScore: window.location.href.includes("chocobunapp")
       ? "Developer Build"
       : "Chocobun App by Chocobun Fam",
-    transmutedGrade: `v${appInfo.version}`,
+    transmutedGrade: `v${appInfo.version}`
   }),
 
   computed: {
     appVersion() {
       return appInfo.version;
-    },
+    }
   },
 
   methods: {
@@ -84,8 +82,8 @@ export default {
         this.passingScore = scoreStat + "The passing score is: " + pScore;
         this.transmutedGrade = "Your transmuted grade is: " + transmuted;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

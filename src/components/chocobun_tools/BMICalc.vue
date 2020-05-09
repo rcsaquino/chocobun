@@ -48,7 +48,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-            <v-card flat class="px-5 pt-4 pb-5">
+            <v-card flat class="pa-5">
               <v-form ref="adultForm">
                 <v-radio-group v-model="adultHtUnit" dense row class="mt-0 pt-0">
                   <v-radio value="cm" label="Centimeters" />
@@ -98,50 +98,47 @@
 
           <!-- Child Tab -->
           <v-tab-item>
-            <v-card-subtitle>
-              <v-dialog v-model="openChildResult">
-                <v-card>
-                  <v-card-title>Results</v-card-title>
-                  <v-card-text class="px-2 pb-0">
-                    <v-simple-table dense>
-                      <template v-slot:default>
-                        <tbody>
-                          <tr>
-                            <td>Age</td>
-                            <td>{{ childAge }}</td>
-                          </tr>
-                          <tr>
-                            <td>BMI</td>
-                            <td>{{ childBMI }}</td>
-                          </tr>
-                          <tr>
-                            <td>Percentile</td>
-                            <td>
-                              <span>{{ childPercentile.percent }}</span>
-                              <sup>{{ childPercentile.suffix }}</sup>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>ZScore</td>
-                            <td>{{ childZScore }}</td>
-                          </tr>
-                          <tr>
-                            <td>Classification</td>
-                            <td>{{ childClassify }}</td>
-                          </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="secondary" @click="openChildResult = false">Close</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-card-subtitle>
-            <v-divider></v-divider>
-            <v-card flat class="px-5 pt-4 pb-5">
+            <v-dialog v-model="openChildResult">
+              <v-card>
+                <v-card-title>Results</v-card-title>
+                <v-card-text class="px-2 pb-0">
+                  <v-simple-table dense>
+                    <template v-slot:default>
+                      <tbody>
+                        <tr>
+                          <td>Age</td>
+                          <td>{{ childAge }}</td>
+                        </tr>
+                        <tr>
+                          <td>BMI</td>
+                          <td>{{ childBMI }}</td>
+                        </tr>
+                        <tr>
+                          <td>Percentile</td>
+                          <td>
+                            <span>{{ childPercentile.percent }}</span>
+                            <sup>{{ childPercentile.suffix }}</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>ZScore</td>
+                          <td>{{ childZScore }}</td>
+                        </tr>
+                        <tr>
+                          <td>Classification</td>
+                          <td>{{ childClassify }}</td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="secondary" @click="openChildResult = false">Close</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            <v-card flat class="pa-5">
               <v-form ref="childForm">
                 <div class="bday-and-sex">
                   <v-select v-model="childSex" :items="sex" label="Sex" dense outlined></v-select>
@@ -382,7 +379,7 @@ export default {
         }`;
 
         // Calculate ZScore
-        const data = require("./BMI/LMS.json");
+        const data = require("@/assets/BMI/LMS.json");
         const lms = data.find(x => x.sex === this.childSex && x.mos === mos);
         const rawZScore =
           ((this.childBMI / lms.m) ** lms.l - 1) / (lms.l * lms.s);

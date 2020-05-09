@@ -18,10 +18,6 @@ export default new Vuetify({
         secondary: "#795548",
         accent: "#795548",
         scoresBtn: "#9E9E9E",
-        // primary: "#263238",
-        // secondary: "#424242",
-        // accent: "#9E9E9E",
-        // anchor: "#607D8B"
       },
     },
   },

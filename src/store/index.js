@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     courses: [],
-    swStatus: "Loading..."
+    swStatus: "Loading...",
   },
   mutations: {
     addCourse(state, newCourse) {
@@ -15,17 +15,17 @@ export default new Vuex.Store({
     },
     updateCourse(state, updatedCourse) {
       const index = state.courses.findIndex(
-        course => course.id === updatedCourse.id
+        (course) => course.id === updatedCourse.id
       );
       state.courses.splice(index, 1, updatedCourse);
     },
     deleteCourse(state, courseToDelete) {
       state.courses = state.courses.filter(
-        course => course.id !== courseToDelete.id
+        (course) => course.id !== courseToDelete.id
       );
     },
     serviceWorker(state, val) {
       state.swStatus = val;
-    }
-  }
+    },
+  },
 });
