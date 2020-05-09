@@ -30,24 +30,24 @@
       </template>
     </PregnancyCalc>
 
-    <!-- Desired FiO2 Calculator -->
-    <DesiredFiO :open="fioCalc">
+    <!-- ABG Analyzer -->
+    <ABG :open="abgAnalyzer">
       <template v-slot:toolbar-items>
-        <v-btn icon @click="fioCalc = false">
+        <v-btn icon @click="abgAnalyzer = false">
           <v-icon>clear</v-icon>
         </v-btn>
       </template>
-    </DesiredFiO>
+    </ABG>
   </v-card>
 </template>
 
 <script>
 import BMICalc from "@/components/chocobun_tools/BMICalc.vue";
 import PregnancyCalc from "@/components/chocobun_tools/PregnancyCalc.vue";
-import DesiredFiO from "@/components/chocobun_tools/DesiredFiO.vue";
+import ABG from "@/components/chocobun_tools/ABG.vue";
 
 export default {
-  components: { BMICalc, PregnancyCalc, DesiredFiO },
+  components: { BMICalc, PregnancyCalc, ABG },
   data: () => ({
     tools: [
       { name: "BMI Calculator", icon: "fitness_center", opener: "bmiCalc" },
@@ -57,14 +57,14 @@ export default {
         opener: "pregnancyCalc"
       },
       {
-        name: "Desired FiO2 Calculator",
+        name: "ABG Analyzer",
         icon: "airline_seat_individual_suite",
-        opener: "fioCalc"
+        opener: "abgAnalyzer"
       }
     ],
     bmiCalc: false,
     pregnancyCalc: false,
-    fioCalc: false
+    abgAnalyzer: false
   }),
   methods: {
     reroute(path) {

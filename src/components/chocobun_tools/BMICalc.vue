@@ -19,15 +19,35 @@
         <v-tabs-items v-model="tab">
           <!-- Adult Tab -->
           <v-tab-item>
-            <v-card-subtitle>
-              <span v-if="!adultBMI">Adult BMI Calculator</span>
-              <span v-else>
-                <div>BMI: {{ adultBMI }}</div>
-                <div>Asia Classification: {{ adultAsia }}</div>
-                <div>WHO Classification: {{ adultWHO }}</div>
-              </span>
-            </v-card-subtitle>
-            <v-divider></v-divider>
+            <v-dialog v-model="openAdultResult">
+              <v-card>
+                <v-card-title>Results</v-card-title>
+                <v-card-text class="px-2 pb-0">
+                  <v-simple-table dense>
+                    <template v-slot:default>
+                      <tbody>
+                        <tr>
+                          <td>BMI</td>
+                          <td>{{adultBMI}}</td>
+                        </tr>
+                        <tr>
+                          <td>Asia Classification</td>
+                          <td>{{ adultAsia }}</td>
+                        </tr>
+                        <tr>
+                          <td>WHO Classification</td>
+                          <td>{{ adultWHO }}</td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="secondary" @click="openAdultResult = false">Close</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
             <v-card flat class="px-5 pt-4 pb-5">
               <v-form ref="adultForm">
                 <v-radio-group v-model="adultHtUnit" dense row class="mt-0 pt-0">
@@ -79,17 +99,46 @@
           <!-- Child Tab -->
           <v-tab-item>
             <v-card-subtitle>
-              <span v-if="!childBMI">For 2 - 20 years old</span>
-              <span v-else>
-                <div>Age: {{ childAge }}</div>
-                <div>BMI: {{ childBMI }}</div>
-                <div>
-                  <span>Percentile: {{childPercentile.percent}}</span>
-                  <sup>{{childPercentile.suffix}}</sup>
-                </div>
-                <div>Z-Score: {{ childZScore }}</div>
-                <div>Classification: {{ childClassify }}</div>
-              </span>
+              <v-dialog v-model="openChildResult">
+                <v-card>
+                  <v-card-title>Results</v-card-title>
+                  <v-card-text class="px-2 pb-0">
+                    <v-simple-table dense>
+                      <template v-slot:default>
+                        <tbody>
+                          <tr>
+                            <td>Age</td>
+                            <td>{{ childAge }}</td>
+                          </tr>
+                          <tr>
+                            <td>BMI</td>
+                            <td>{{ childBMI }}</td>
+                          </tr>
+                          <tr>
+                            <td>Percentile</td>
+                            <td>
+                              <span>{{ childPercentile.percent }}</span>
+                              <sup>{{ childPercentile.suffix }}</sup>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>ZScore</td>
+                            <td>{{ childZScore }}</td>
+                          </tr>
+                          <tr>
+                            <td>Classification</td>
+                            <td>{{ childClassify }}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="secondary" @click="openChildResult = false">Close</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-card-subtitle>
             <v-divider></v-divider>
             <v-card flat class="px-5 pt-4 pb-5">
@@ -190,6 +239,8 @@ export default {
       { text: "Male", value: 1 },
       { text: "Female", value: 2 }
     ],
+    openAdultResult: false,
+    openChildResult: false,
     datePicker: false,
     adultHtUnit: "cm",
     adultWtUnit: "kg",
@@ -296,6 +347,7 @@ export default {
           this.adultAsia = "Obese";
           this.adultWHO = "Obese class III";
         }
+        this.openAdultResult = true;
       }
     },
     clearAdult() {
@@ -377,6 +429,7 @@ export default {
           this.childClassify = "Obese";
         }
       }
+      this.openChildResult = true;
     },
     clearChild() {
       this.$refs.childForm.resetValidation();
