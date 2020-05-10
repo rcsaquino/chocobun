@@ -22,9 +22,11 @@ if (process.env.NODE_ENV === "production") {
       console.log("New content is downloading.");
     },
     updated() {
+      store.commit("serviceWorker", "Please refresh the page.");
       console.log("New content is available; please refresh.");
     },
     offline() {
+      store.commit("serviceWorker", "You are offline.");
       console.log(
         "No internet connection found. App is running in offline mode."
       );

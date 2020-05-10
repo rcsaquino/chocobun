@@ -4,6 +4,7 @@ import Transmute from "@/views/Transmute.vue";
 import Courses from "@/views/Courses.vue";
 import Tools from "@/views/Tools.vue";
 import Settings from "@/views/Settings.vue";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -37,6 +38,15 @@ const routes = [
 const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (store.state.canChangeHash || from.hash) {
+    next();
+    store.state.canChangeHash && store.commit("requestChangeHash", false);
+  } else {
+    next(false);
+  }
 });
 
 export default router;

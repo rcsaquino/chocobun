@@ -7,7 +7,9 @@
             <td>
               <v-row no-gutters>
                 <v-col cols="5">{{ syllabus.name }} {{ index + 1 }}</v-col>
-                <v-col cols="6">{{ score.yourScore }}/{{ score.totalItems }}</v-col>
+                <v-col cols="6"
+                  >{{ score.yourScore }}/{{ score.totalItems }}</v-col
+                >
                 <v-col cols="1" @click="deleteScore(score.id)">&#10005;</v-col>
               </v-row>
             </td>
@@ -29,14 +31,16 @@
                     @click="openNewScoreDialog"
                     class="baseWidth"
                     outlined
-                  >Add</v-btn>
+                    >Add</v-btn
+                  >
                   <v-btn
                     color="scoresBtn"
                     x-small
                     class="baseWidth"
                     outlined
                     @click="confirmClearDialog = true"
-                  >Clear</v-btn>
+                    >Clear</v-btn
+                  >
                 </v-col>
               </v-row>
             </td>
@@ -45,7 +49,9 @@
       </v-simple-table>
     </v-card>
     <v-row justify="center" class="mt-4 py-1">
-      <v-btn text color="accent" @click="confirmDeleteDialog = true">Delete Syllabus</v-btn>
+      <v-btn text color="accent" @click="confirmDeleteDialog = true"
+        >Delete Syllabus</v-btn
+      >
     </v-row>
     <DialogBox
       :open="newScoreDialog"
@@ -89,7 +95,8 @@
       proceedText="Ok"
       @cancel="clearScores(false)"
       @proceed="clearScores(true)"
-    >This will clear all {{ syllabus.name }} scores.</DialogBox>
+      >This will clear all {{ syllabus.name }} scores.</DialogBox
+    >
   </div>
 </template>
 
@@ -98,44 +105,52 @@ import DialogBox from "./DialogBox.vue";
 import Vue from "vue";
 import store from "@/store";
 import TransmuteMixin from "@/mixins/TransmuteMixin.js";
+import dialogHelper from "@/mixins/dialogHelper";
 
 export default {
   props: {
     courseId: {
       type: String,
-      required: true
+      required: true,
     },
     syllabusId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
-    DialogBox
+    DialogBox,
   },
-  mixins: [TransmuteMixin],
+  mixins: [TransmuteMixin, dialogHelper],
   data: () => ({
     newScoreDialog: false,
     baseSelection: 65,
     baseSelections: [
       { text: "Base 65", value: 65 },
       { text: "Base 60", value: 60 },
-      { text: "Base 50", value: 50 }
+      { text: "Base 50", value: 50 },
     ],
     newScore: {},
-    numbersOnly: [v => (v && !isNaN(v)) || "Please input numbers."],
+    numbersOnly: [(v) => (v && !isNaN(v)) || "Please input numbers."],
     confirmDeleteDialog: false,
-    confirmClearDialog: false
+    confirmClearDialog: false,
+    hashID: "SelectedSyllabus",
+    watchDialogs: [
+      "newScoreDialog",
+      "confirmDeleteDialog",
+      "confirmClearDialog",
+    ],
+    dialogsWithClose: ["newScoreDialog"],
   }),
   computed: {
     course() {
-      return store.state.courses.find(course => course.id === this.courseId);
+      return store.state.courses.find((course) => course.id === this.courseId);
     },
     syllabus() {
       return this.course.syllabi.find(
-        syllabus => syllabus.id === this.syllabusId
+        (syllabus) => syllabus.id === this.syllabusId
       );
-    }
+    },
   },
   watch: {
     baseSelection(base) {
@@ -144,7 +159,7 @@ export default {
       updatedSyllabus = this.transmute_syllabus(updatedSyllabus, base);
       // Update and commit course
       this.updateCourse(updatedSyllabus);
-    }
+    },
   },
   methods: {
     openNewScoreDialog() {
@@ -183,7 +198,7 @@ export default {
         this.confirmDeleteDialog = false;
         const updatedCourse = this.course;
         updatedCourse.syllabi = updatedCourse.syllabi.filter(
-          oldSyllabus => oldSyllabus.id !== this.syllabus.id
+          (oldSyllabus) => oldSyllabus.id !== this.syllabus.id
         );
         this.$store.commit("updateCourse", updatedCourse);
       } else {
@@ -208,7 +223,7 @@ export default {
       // Delete score and update syllabus
       let updatedSyllabus = this.syllabus;
       updatedSyllabus.scores = updatedSyllabus.scores.filter(
-        score => score.id !== scoreKey
+        (score) => score.id !== scoreKey
       );
 
       // Transmute syllabus
@@ -224,14 +239,14 @@ export default {
       // Update course with updated syllabus
       const updatedCourse = this.course;
       const index = updatedCourse.syllabi.findIndex(
-        syllabus => syllabus.id === updatedSyllabus.id
+        (syllabus) => syllabus.id === updatedSyllabus.id
       );
       updatedCourse.syllabi.splice(index, 1, updatedSyllabus);
 
       // Commit updated course
       this.$store.commit("updateCourse", updatedCourse);
-    }
-  }
+    },
+  },
 };
 </script>
 

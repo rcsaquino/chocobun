@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     courses: [],
     swStatus: "Loading...",
+    canChangeHash: true,
   },
   mutations: {
     addCourse(state, newCourse) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     serviceWorker(state, val) {
       state.swStatus = val;
+    },
+    requestChangeHash(state, response) {
+      state.canChangeHash = response;
     },
   },
 });

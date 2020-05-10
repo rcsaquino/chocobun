@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation app grow v-model="selected" color="secondary">
+  <v-bottom-navigation v-model="currentView" app grow color="secondary">
     <v-btn
       class="fill"
       v-for="(link, index) in links"
@@ -16,19 +16,20 @@
 <script>
 export default {
   data: () => ({
-    selected: "Transmute",
+    currentView: "",
     links: [
       { name: "Transmute", icon: "assignment", path: "/" },
       { name: "Courses", icon: "collections_bookmark", path: "/courses" },
       { name: "Tools", icon: "widgets", path: "/tools" },
-      { name: "Settings", icon: "settings", path: "/settings" }
-    ]
+      { name: "Settings", icon: "settings", path: "/settings" },
+    ],
   }),
   methods: {
     reroute(path) {
-      this.$router.push(path).catch(err => {});
-    }
-  }
+      this.$store.commit("requestChangeHash", true);
+      this.$router.push(path).catch((err) => {});
+    },
+  },
 };
 </script>
 

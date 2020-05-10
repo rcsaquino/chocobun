@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="open"
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition"
+  >
     <v-card>
       <v-toolbar dark color="primary">
         <v-toolbar-title>{{ course.name }}</v-toolbar-title>
@@ -9,15 +14,19 @@
         </v-toolbar-items>
       </v-toolbar>
       <!-- List Syllabi -->
-      <v-expansion-panels>
-        <v-expansion-panel v-for="syllabus in course.syllabi" :key="syllabus.id">
+      <v-expansion-panels accordion>
+        <v-expansion-panel
+          v-for="syllabus in course.syllabi"
+          :key="syllabus.id"
+        >
           <v-expansion-panel-header>
             <v-row no-gutters>
-              <v-col cols="5">{{ syllabus.name }} ({{ syllabus.weight }}%)</v-col>
-              <v-col
-                cols="7"
-                class="text--secondary"
-              >Transmuted Grade: {{ syllabus.transmutedGrade }}</v-col>
+              <v-col cols="5"
+                >{{ syllabus.name }} ({{ syllabus.weight }}%)</v-col
+              >
+              <v-col cols="7" class="text--secondary"
+                >Transmuted Grade: {{ syllabus.transmutedGrade }}</v-col
+              >
             </v-row>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -29,10 +38,20 @@
         <i>Tap the + icon to add a new syllabus.</i>
       </v-card-text>
       <div class="px-5 pt-4" v-else>
-        <v-chip class="finalGradePill" color="primary">Final Grade: {{finalGrade}}</v-chip>
+        <v-chip class="finalGradePill" color="primary"
+          >Final Grade: {{ finalGrade }}</v-chip
+        >
       </div>
 
-      <v-btn fixed bottom right fab dark color="secondary" @click="openNewSyllabusDialog">
+      <v-btn
+        fixed
+        bottom
+        right
+        fab
+        dark
+        color="secondary"
+        @click="openNewSyllabusDialog"
+      >
         <v-icon>add</v-icon>
       </v-btn>
 
@@ -71,35 +90,40 @@
 import DialogBox from "./DialogBox.vue";
 import SelectedSyllabus from "./SelectedSyllabus.vue";
 import store from "@/store";
+import dialogHelper from "@/mixins/dialogHelper";
 
 export default {
+  mixins: [dialogHelper],
   components: {
     DialogBox,
-    SelectedSyllabus
+    SelectedSyllabus,
   },
   props: {
     courseId: {
       type: String,
-      required: true
+      required: true,
     },
     open: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     newSyllabusDialog: false,
+    hashID: "SelectedCourse",
+    watchDialogs: ["newSyllabusDialog"],
+    dialogsWithClose: ["newSyllabusDialog"],
     newSyllabus: {},
     requiredField: [
-      v => (!!v && v.toString().length > 0) || "Enter syllabus name."
+      (v) => (v && v.toString().length > 0) || "Enter syllabus name.",
     ],
-    numbersOnly: [v => (v && !isNaN(v)) || "Input weight."]
+    numbersOnly: [(v) => (v && !isNaN(v)) || "Input weight."],
   }),
   computed: {
     course() {
       // Will return undefined if ID is not found
       const course = store.state.courses.find(
-        course => course.id === this.courseId
+        (course) => course.id === this.courseId
       );
       // Return an empty object if undefined to avoid rendering errors
       return course ? course : {};
@@ -109,12 +133,12 @@ export default {
     },
     finalGrade() {
       let finalGrade = 0;
-      this.course.syllabi?.forEach(syllabus => {
+      this.course.syllabi?.forEach((syllabus) => {
         finalGrade += (syllabus.transmutedGrade * syllabus.weight) / 100;
       });
       finalGrade = Math.round(finalGrade * 100) / 100;
       return finalGrade;
-    }
+    },
   },
   methods: {
     addNewSyllabus() {
@@ -143,8 +167,8 @@ export default {
       this.newSyllabusDialog = false;
       this.newSyllabus = {};
       this.$refs.syllabusForm.resetValidation();
-    }
-  }
+    },
+  },
 };
 </script>
 

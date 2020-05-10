@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="open"
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition"
+  >
     <v-card>
       <v-toolbar dark color="primary">
         <v-toolbar-title>Pregnancy Calculator</v-toolbar-title>
@@ -36,10 +41,17 @@
                 outlined
               ></v-text-field>
             </template>
-            <v-date-picker v-model="lmp" :max="new Date().toISOString().substr(0, 10)">
+            <v-date-picker
+              v-model="lmp"
+              :max="new Date().toISOString().substr(0, 10)"
+            >
               <v-spacer></v-spacer>
-              <v-btn text color="secondary" @click="datePicker = false">Cancel</v-btn>
-              <v-btn text color="secondary" @click="$refs.dialog.save(lmp)">OK</v-btn>
+              <v-btn text color="secondary" @click="datePicker = false"
+                >Cancel</v-btn
+              >
+              <v-btn text color="secondary" @click="$refs.dialog.save(lmp)"
+                >OK</v-btn
+              >
             </v-date-picker>
           </v-dialog>
         </v-card>
@@ -49,16 +61,21 @@
 </template>
 
 <script>
+import dialogHelper from "@/mixins/dialogHelper";
+
 export default {
+  mixins: [dialogHelper],
   props: {
     open: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     lmp: new Date().toISOString().substr(0, 10),
-    datePicker: false
+    datePicker: false,
+    hashID: "PregnancyCalc",
+    watchDialogs: ["datePicker"],
   }),
   computed: {
     aog() {
@@ -86,7 +103,7 @@ export default {
         .toISOString()
         .substr(0, 10);
       return date;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -4,7 +4,9 @@
       <v-card-title>Settings</v-card-title>
       <v-card-text>
         <v-switch v-model="darkMode" label="Dark Mode" class="my-2" />
-        <v-btn color="secondary" @click="confirmClearDialog = true">Clear All Data</v-btn>
+        <v-btn color="secondary" @click="confirmClearDialog = true"
+          >Clear All Data</v-btn
+        >
       </v-card-text>
       <v-divider></v-divider>
       <v-card-text>
@@ -16,7 +18,8 @@
           Send feedback:
           <a
             onclick="window.location.href = 'mailto:rcsaquino.dev@gmail.com?Subject=[FEEDBACK]%20Chocobun%20App'"
-          >rcsaquino.dev@gmail.com</a>
+            >rcsaquino.dev@gmail.com</a
+          >
         </p>
         <p class="mb-0">© 2018-2020</p>
       </v-card-text>
@@ -30,20 +33,25 @@
       @proceed="clearData"
       snackbarText="Cleared all data."
       :snackbarTrigger="snackbarTrigger"
-    >Are you sure you want to continue? This can not be undone.</DialogBox>
+      >Are you sure you want to continue? This can not be undone.</DialogBox
+    >
   </div>
 </template>
 
 <script>
 import store from "@/store";
 import DialogBox from "@/components/DialogBox.vue";
+import dialogHelper from "@/mixins/dialogHelper";
 
 export default {
+  mixins: [dialogHelper],
   components: { DialogBox },
   data: () => ({
     confirmClearDialog: false,
     snackbarTrigger: 0,
-    darkMode: false
+    darkMode: false,
+    hashID: "Settings",
+    watchDialogs: ["confirmClearDialog"],
   }),
 
   created() {
@@ -59,13 +67,13 @@ export default {
       } else {
         document.body.style.background = "#FFFFFF";
       }
-    }
+    },
   },
 
   methods: {
     clearData() {
       this.confirmClearDialog = false;
-      store.state.courses.forEach(course => {
+      store.state.courses.forEach((course) => {
         this.$store.commit("deleteCourse", course);
       });
       this.snackbarTrigger++;
@@ -75,13 +83,13 @@ export default {
         navigator.share({
           title: "Chocobun App",
           text: "Check out chocobun app!",
-          url: "https://chocobun.web.app/"
+          url: "https://chocobun.web.app/",
         });
       } else {
         window.open("https://chocobun.web.app/");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
