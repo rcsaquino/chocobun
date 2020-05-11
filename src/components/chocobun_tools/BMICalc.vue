@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    v-model="open"
-    fullscreen
-    hide-overlay
-    transition="dialog-bottom-transition"
-  >
+  <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
       <v-toolbar dark color="primary">
         <v-toolbar-title>BMI Calculator</v-toolbar-title>
@@ -49,20 +44,13 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn text color="secondary" @click="openAdultResult = false"
-                    >Close</v-btn
-                  >
+                  <v-btn text color="secondary" @click="openAdultResult = false">Close</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
             <v-card flat class="pa-5">
               <v-form ref="adultForm">
-                <v-radio-group
-                  v-model="adultHtUnit"
-                  dense
-                  row
-                  class="mt-0 pt-0"
-                >
+                <v-radio-group v-model="adultHtUnit" dense row class="mt-0 pt-0">
                   <v-radio value="cm" label="Centimeters" />
                   <v-radio value="ft" label="Feet, inches" />
                 </v-radio-group>
@@ -86,12 +74,7 @@
                     :rules="numbersOnly"
                   ></v-text-field>
                 </div>
-                <v-radio-group
-                  v-model="adultWtUnit"
-                  dense
-                  row
-                  class="mt-0 pt-0"
-                >
+                <v-radio-group v-model="adultWtUnit" dense row class="mt-0 pt-0">
                   <v-radio value="kg" label="Kilograms" />
                   <v-radio value="lbs" label="Pounds" />
                 </v-radio-group>
@@ -108,9 +91,7 @@
               <v-card-actions class="ma-0 pa-0">
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="clearAdult">Clear</v-btn>
-                <v-btn text color="primary" @click="computeAdult"
-                  >Compute</v-btn
-                >
+                <v-btn text color="primary" @click="computeAdult">Compute</v-btn>
               </v-card-actions>
             </v-card>
           </v-tab-item>
@@ -153,22 +134,14 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn text color="secondary" @click="openChildResult = false"
-                    >Close</v-btn
-                  >
+                  <v-btn text color="secondary" @click="openChildResult = false">Close</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
             <v-card flat class="pa-5">
               <v-form ref="childForm">
                 <div class="bday-and-sex">
-                  <v-select
-                    v-model="childSex"
-                    :items="sex"
-                    label="Sex"
-                    dense
-                    outlined
-                  ></v-select>
+                  <v-select v-model="childSex" :items="sex" label="Sex" dense outlined></v-select>
                   <v-dialog
                     ref="dialog"
                     v-model="datePicker"
@@ -205,24 +178,12 @@
                       "
                     >
                       <v-spacer></v-spacer>
-                      <v-btn text color="secondary" @click="datePicker = false"
-                        >Cancel</v-btn
-                      >
-                      <v-btn
-                        text
-                        color="secondary"
-                        @click="$refs.dialog.save(childBirthday)"
-                        >OK</v-btn
-                      >
+                      <v-btn text color="secondary" @click="datePicker = false">Cancel</v-btn>
+                      <v-btn text color="secondary" @click="$refs.dialog.save(childBirthday)">OK</v-btn>
                     </v-date-picker>
                   </v-dialog>
                 </div>
-                <v-radio-group
-                  v-model="childHtUnit"
-                  dense
-                  row
-                  class="mt-0 pt-0"
-                >
+                <v-radio-group v-model="childHtUnit" dense row class="mt-0 pt-0">
                   <v-radio value="cm" label="Centimeters" />
                   <v-radio value="ft" label="Feet, inches" />
                 </v-radio-group>
@@ -246,12 +207,7 @@
                     :rules="numbersOnly"
                   ></v-text-field>
                 </div>
-                <v-radio-group
-                  v-model="childWtUnit"
-                  dense
-                  row
-                  class="mt-0 pt-0"
-                >
+                <v-radio-group v-model="childWtUnit" dense row class="mt-0 pt-0">
                   <v-radio value="kg" label="Kilograms" />
                   <v-radio value="lbs" label="Pounds" />
                 </v-radio-group>
@@ -268,9 +224,7 @@
               <v-card-actions class="ma-0 pa-0">
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="clearChild">Clear</v-btn>
-                <v-btn text color="primary" @click="computeChild"
-                  >Compute</v-btn
-                >
+                <v-btn text color="primary" @click="computeChild">Compute</v-btn>
               </v-card-actions>
             </v-card>
           </v-tab-item>
@@ -288,14 +242,14 @@ export default {
   props: {
     open: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data: () => ({
     tab: 0,
     sex: [
       { text: "Male", value: 1 },
-      { text: "Female", value: 2 },
+      { text: "Female", value: 2 }
     ],
     openAdultResult: false,
     openChildResult: false,
@@ -326,7 +280,7 @@ export default {
     )
       .toISOString()
       .substr(0, 10),
-    numbersOnly: [(v) => v && !isNaN(v)],
+    numbersOnly: [v => v && !isNaN(v)]
   }),
   methods: {
     computeBMI(wtUnit, wt, htUnit, ht, inch) {
@@ -443,7 +397,7 @@ export default {
 
         // Calculate ZScore
         const data = require("@/assets/BMI/LMS.json");
-        const lms = data.find((x) => x.sex === this.childSex && x.mos === mos);
+        const lms = data.find(x => x.sex === this.childSex && x.mos === mos);
         const rawZScore =
           ((this.childBMI / lms.m) ** lms.l - 1) / (lms.l * lms.s);
         this.childZScore = rawZScore.toFixed(2);
@@ -488,8 +442,8 @@ export default {
         } else {
           this.childClassify = "Obese";
         }
+        this.openChildResult = true;
       }
-      this.openChildResult = true;
     },
     clearChild() {
       this.$refs.childForm.resetValidation();
@@ -509,8 +463,8 @@ export default {
       )
         .toISOString()
         .substr(0, 10);
-    },
-  },
+    }
+  }
 };
 </script>
 

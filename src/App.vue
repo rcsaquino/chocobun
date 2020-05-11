@@ -11,18 +11,30 @@
     </div>
     <v-content v-else>
       <InstallInstructions v-show="swStatus === 'ready'" />
-      <div
-        v-show="swStatus !== 'ready'"
-        class="download-circle-container no-scroll"
-      >
-        <v-progress-circular
-          class="download-circle"
-          :indeterminate="swStatus === 'Downloading...'"
-          color="primary"
-          size="200"
-          width="5"
-          >{{ swStatus }}</v-progress-circular
-        >
+      <div v-show="swStatus !== 'ready'" class="chocobun-bg no-scroll">
+        <v-card color="#ffebcd">
+          <v-card-text>
+            Notes:
+            <ul>
+              <li>Please wait while the app loads.</li>
+              <li>
+                Make sure you are using
+                <span class="font-weight-bold">{{ recommendedBrowser }}</span>.
+              </li>
+              <li>Other browsers are not yet supported.</li>
+              <li>
+                Need Help? Email:
+                <a
+                  onclick="window.location.href = 'mailto:rcsaquino.dev@gmail.com?Subject=[HELP]%20Chocobun%20App'"
+                >rcsaquino.dev@gmail.com</a>
+              </li>
+            </ul>
+          </v-card-text>
+        </v-card>
+        <v-card class="ma-5" color="#ffebcd">
+          <v-card-title>App status: {{ swStatus }}</v-card-title>
+          <v-progress-linear color="primary" :indeterminate="swStatus === 'Downloading...'"></v-progress-linear>
+        </v-card>
       </div>
     </v-content>
   </v-app>
@@ -38,7 +50,7 @@ export default {
 
   components: {
     BottomNav,
-    InstallInstructions,
+    InstallInstructions
   },
 
   computed: {
@@ -55,6 +67,13 @@ export default {
     swStatus() {
       return store.state.swStatus;
     },
+    recommendedBrowser() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isWindows = navigator.platform.indexOf("Win") > -1;
+      return /android/i.test(userAgent) || isWindows
+        ? "Google Chrome"
+        : "Safari";
+    }
   },
 
   created() {
@@ -63,7 +82,7 @@ export default {
 
     // Hydrate store with localstorage
     const courses = JSON.parse(localStorage.getItem("courses"));
-    courses?.forEach((course) => {
+    courses?.forEach(course => {
       this.$store.commit("addCourse", course);
     });
 
@@ -75,7 +94,7 @@ export default {
         localStorage.setItem("courses", JSON.stringify(state.courses));
       }
     });
-  },
+  }
 };
 </script>
 
@@ -85,13 +104,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.download-circle-container {
+.chocobun-bg {
   background: #ffebcd;
-}
-.download-circle {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 </style>

@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    v-model="open"
-    fullscreen
-    hide-overlay
-    transition="dialog-bottom-transition"
-  >
+  <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
       <v-toolbar dark color="primary">
         <v-toolbar-title>ABG Analyzer</v-toolbar-title>
@@ -24,9 +19,7 @@
                   <h5>Arterial Blood Gas Analysis</h5>
                   <div>{{ findings }}</div>
                   <div v-for="data in interpretation" :key="data.label">
-                    <div>
-                      {{ data.label }}: {{ data.value }}{{ data.suffix }}
-                    </div>
+                    <div>{{ data.label }}: {{ data.value }}{{ data.suffix }}</div>
                   </div>
                 </div>
                 <v-divider />
@@ -53,37 +46,15 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn text color="secondary" @click="openResults = false"
-                >Close</v-btn
-              >
+              <v-btn text color="secondary" @click="openResults = false">Close</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
 
         <v-card-text>
-          <v-text-field
-            v-model="age"
-            type="number"
-            label="Age"
-            dense
-            outlined
-            suffix="y/o"
-          ></v-text-field>
-          <v-text-field
-            v-model="ph"
-            type="number"
-            label="pH"
-            dense
-            outlined
-          ></v-text-field>
-          <v-text-field
-            v-model="parco"
-            type="number"
-            label="PaCO2"
-            dense
-            outlined
-            suffix="mmHg"
-          ></v-text-field>
+          <v-text-field v-model="age" type="number" label="Age" dense outlined suffix="y/o"></v-text-field>
+          <v-text-field v-model="ph" type="number" label="pH" dense outlined></v-text-field>
+          <v-text-field v-model="parco" type="number" label="PaCO2" dense outlined suffix="mmHg"></v-text-field>
           <v-text-field
             v-model="cparo"
             type="number"
@@ -92,22 +63,8 @@
             outlined
             suffix="mmHg"
           ></v-text-field>
-          <v-text-field
-            v-model="hco"
-            type="number"
-            label="HCO3"
-            dense
-            outlined
-            suffix="mmol/L"
-          ></v-text-field>
-          <v-text-field
-            v-model="cfio"
-            type="number"
-            label="Current FiO2"
-            dense
-            outlined
-            suffix="%"
-          ></v-text-field>
+          <v-text-field v-model="hco" type="number" label="HCO3" dense outlined suffix="mmol/L"></v-text-field>
+          <v-text-field v-model="cfio" type="number" label="Current FiO2" dense outlined suffix="%"></v-text-field>
           <v-card-actions class="px-0 py-0 pb-2 buttons">
             <v-btn color="primary" @click="clear">Clear</v-btn>
             <v-btn color="primary" @click="analyze">Analyze</v-btn>
@@ -126,8 +83,8 @@ export default {
   props: {
     open: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   // ar = arterial; al = alveolar
   // c = current; d = desired
@@ -143,21 +100,21 @@ export default {
     hco: "",
     cfio: "",
     analyzed: [],
-    findings: "",
+    findings: ""
   }),
   computed: {
     interpretation() {
-      const filtered = this.analyzed.filter((data) =>
+      const filtered = this.analyzed.filter(data =>
         data.label.includes("Desired")
       );
       return filtered;
     },
     dataForTable() {
       const filtered = this.analyzed.filter(
-        (data) => !data.label.includes("Desired")
+        data => !data.label.includes("Desired")
       );
       return filtered;
-    },
+    }
   },
   methods: {
     analyze() {
@@ -184,13 +141,14 @@ export default {
         const cparo = {};
         cparo.label = "PaO2";
         cparo.value = this.cparo;
-        if (this.age >= 60) {
-          cparo.nv = "80-100";
-        } else {
-          let x = Math.round(104 - this.age * 0.43);
-          x < 80 && (x = 80);
-          x > 100 && (x = 100);
-          cparo.nv = "≥" + x;
+        if (this.age) {
+          if (this.age >= 60) {
+            cparo.nv = "80-100";
+          } else {
+            let x = Math.round(104 - this.age * 0.43);
+            x < 80 && (x = 80);
+            x > 100 ? (cparo.nv = 100) : (cparo.nv = "≥" + x);
+          }
         }
         this.analyzed.push(cparo);
       }
@@ -348,7 +306,7 @@ export default {
           this.analyzed.push(paao);
 
           // Compute for Desired FiO2 => Nested in aao
-          const val = this.analyzed.find((x) => x.label === "Desired PaO2");
+          const val = this.analyzed.find(x => x.label === "Desired PaO2");
           if (val) {
             // Set Variables
             const dfio = {};
@@ -397,8 +355,8 @@ export default {
       this.cfio = "";
       this.analyzed = [];
       this.findings = "";
-    },
-  },
+    }
+  }
 };
 </script>
 

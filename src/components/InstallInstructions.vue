@@ -11,6 +11,13 @@
       <v-divider class="my-4" />
       <AndroidInstructions />
     </div>
+    <v-divider class="my-4" />
+    <h5>
+      Need Help? Email:
+      <a
+        onclick="window.location.href = 'mailto:rcsaquino.dev@gmail.com?Subject=[HELP]%20Chocobun%20App'"
+      >rcsaquino.dev@gmail.com</a>
+    </h5>
   </div>
 </template>
 
