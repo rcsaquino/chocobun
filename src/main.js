@@ -8,7 +8,7 @@ import "./registerServiceWorker";
 // CSS
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "typeface-roboto/index.css";
-import "animate.css";
+import "animate.css/animate.min.css";
 
 Vue.config.productionTip = false;
 
