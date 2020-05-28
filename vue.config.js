@@ -40,9 +40,10 @@ module.exports = {
     // Configure workbox plugin
     workboxOptions: {
       skipWaiting: true,
+      clientsClaim: true,
       navigateFallback: "index.html",
       offlineGoogleAnalytics: true,
-      cleanupOutdatedCaches: true
+      cleanupOutdatedCaches: true,
     },
   },
 };

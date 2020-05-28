@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="animated fadeInDown faster">
+    <v-card class="animate__animated animate__fadeInDown animate__faster">
       <v-card-title>Settings</v-card-title>
       <v-card-text>
         <v-switch v-model="darkMode" label="Dark Mode" class="my-2" />

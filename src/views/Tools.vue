@@ -1,8 +1,12 @@
 <template>
-  <v-card class="animated fadeInDown faster">
+  <v-card class="animate__animated animate__fadeInDown animate__faster">
     <v-list>
       <v-subheader>TOOLS</v-subheader>
-      <v-list-item v-for="(tool, index) in tools" :key="index" @click="openTool(tool.opener)">
+      <v-list-item
+        v-for="(tool, index) in tools"
+        :key="index"
+        @click="openTool(tool.opener, tool.name)"
+      >
         <v-list-item-icon>
           <v-icon v-text="tool.icon"></v-icon>
         </v-list-item-icon>
@@ -56,27 +60,33 @@ export default {
       {
         name: "Pregnancy Calculator",
         icon: "pregnant_woman",
-        opener: "pregnancyCalc"
+        opener: "pregnancyCalc",
       },
       {
         name: "ABG Analyzer",
         icon: "airline_seat_individual_suite",
-        opener: "abgAnalyzer"
-      }
+        opener: "abgAnalyzer",
+      },
     ],
     bmiCalc: false,
     pregnancyCalc: false,
     abgAnalyzer: false,
     hashID: "Tools",
-    watchDialogs: ["bmiCalc", "pregnancyCalc", "abgAnalyzer"]
+    watchDialogs: ["bmiCalc", "pregnancyCalc", "abgAnalyzer"],
   }),
   methods: {
     reroute(path) {
-      this.$router.push(path).catch(err => {});
+      this.$router.push(path).catch((err) => {});
     },
-    openTool(opener) {
+    openTool(opener, name) {
       this[opener] = true;
-    }
-  }
+
+      // Log to GA
+      this.$gtag.event("open_tool", {
+        event_category: "tools",
+        event_label: name,
+      });
+    },
+  },
 };
 </script>

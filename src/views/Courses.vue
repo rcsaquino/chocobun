@@ -1,10 +1,12 @@
 <template>
   <div>
-    <v-card class="animated fadeInDown faster">
+    <v-card class="animate__animated animate__fadeInDown animate__faster">
       <v-list>
         <v-subheader>COURSES</v-subheader>
         <div class="listScroll">
-          <transition-group enter-active-class="animated fadeIn fast">
+          <transition-group
+            enter-active-class="animate__animated animate__fadeIn animate__fast"
+          >
             <v-list-item
               v-for="course in courses"
               :key="course.id"
@@ -21,7 +23,7 @@
         </div>
       </v-list>
     </v-card>
-    <v-card-text class="animated fadeInLeft faster">
+    <v-card-text class="animate__animated animate__fadeInLeft animate__faster">
       <i>Tap the + icon to add a new course.</i>
     </v-card-text>
     <v-btn
@@ -29,7 +31,7 @@
       fab
       dark
       color="secondary"
-      class="fab animated slideInUp faster"
+      class="fab animate__animated animate__slideInUp animate__faster"
       @click="openNewCourseDialog"
     >
       <v-icon>add</v-icon>
@@ -57,9 +59,14 @@
     <!-- Check if a course is selected before rendering to avoid errors -->
     <div v-if="courseIsSelected">
       <!-- Open Selected Course -->
-      <SelectedCourse :open="selectedCourseDialog" :courseId="selectedCourse.id">
+      <SelectedCourse
+        :open="selectedCourseDialog"
+        :courseId="selectedCourse.id"
+      >
         <template v-slot:toolbar-items>
-          <v-icon class="mr-2" @click="confirmDeleteDialog = true">delete</v-icon>
+          <v-icon class="mr-2" @click="confirmDeleteDialog = true"
+            >delete</v-icon
+          >
           <v-btn text @click="closeSelectedCourseDialog">Done</v-btn>
         </template>
       </SelectedCourse>
@@ -91,16 +98,16 @@ export default {
     selectedCourse: {},
     selectedCourseDialog: false,
     requiredField: [
-      v => (!!v && v.toString().length > 0) || "Enter course name."
+      (v) => (!!v && v.toString().length > 0) || "Enter course name.",
     ],
     confirmDeleteDialog: false,
     hashID: "Courses",
     watchDialogs: [
       "newCourseDialog",
       "selectedCourseDialog",
-      "confirmDeleteDialog"
+      "confirmDeleteDialog",
     ],
-    dialogsWithClose: ["newCourseDialog"]
+    dialogsWithClose: ["newCourseDialog"],
   }),
   computed: {
     courses() {
@@ -108,7 +115,7 @@ export default {
     },
     courseIsSelected() {
       return Object.keys(this.selectedCourse).length > 0;
-    }
+    },
   },
   methods: {
     openNewCourseDialog() {
@@ -145,8 +152,8 @@ export default {
     },
     closeSelectedCourseDialog() {
       this.selectedCourseDialog = false;
-    }
-  }
+    },
+  },
 };
 </script>
 

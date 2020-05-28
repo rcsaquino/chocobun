@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-5 animated fadeInDown faster">
+  <v-card class="pa-5 animate__animated animate__fadeInDown animate__faster">
     <v-form ref="transmuteForm">
       <div class="baseSelect">
         <v-select v-model="base" :items="baseChoices" label="Base"></v-select>
@@ -18,7 +18,9 @@
         :rules="numbersOnly"
         color="accent"
       />
-      <v-btn class="mt-2" color="secondary" @click="transmuteScore">Transmute</v-btn>
+      <v-btn class="mt-2" color="secondary" @click="transmuteScore"
+        >Transmute</v-btn
+      >
     </v-form>
     <div class="mt-5">
       <p>{{ passingScore }}</p>
@@ -38,17 +40,17 @@ export default {
     baseChoices: ["65", "60", "50"],
     yourScore: "",
     totalItems: "",
-    numbersOnly: [v => (v && !isNaN(v)) || "Please input numbers."],
+    numbersOnly: [(v) => (v && !isNaN(v)) || "Please input numbers."],
     passingScore: window.location.href.includes("chocobunapp")
       ? "Developer Build"
       : "Chocobun App by Chocobun Fam",
-    transmutedGrade: `v${appInfo.version}`
+    transmutedGrade: `v${appInfo.version}`,
   }),
 
   computed: {
     appVersion() {
       return appInfo.version;
-    }
+    },
   },
 
   methods: {
@@ -81,9 +83,15 @@ export default {
 
         this.passingScore = scoreStat + "The passing score is: " + pScore;
         this.transmutedGrade = "Your transmuted grade is: " + transmuted;
+
+        // Log to GA
+        this.$gtag.event("transmute_score", {
+          event_category: "transmute",
+          event_label: "Transmute",
+        });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
