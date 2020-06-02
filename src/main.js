@@ -18,15 +18,19 @@ const dev =
   window.location.href.includes("localhost") ||
   process.env.NODE_ENV !== "production";
 
+const installed =
+  window.matchMedia("(display-mode: standalone)").matches ||
+  window.navigator.standalone ||
+  document.referrer.includes("android-app://");
+
 Vue.use(
   VueGtag,
   {
     config: { id: dev ? "UA-148983903-6" : "UA-148983903-5" },
+    enabled: installed || dev,
   },
   router
 );
-
-Vue.config.productionTip = false;
 
 new Vue({
   router,
