@@ -40,6 +40,7 @@ const router = new VueRouter({
   routes,
 });
 
+// For Android "Back"
 router.beforeEach((to, from, next) => {
   if (store.state.canChangeHash || from.hash) {
     next();

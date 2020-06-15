@@ -4,9 +4,7 @@
       <v-list>
         <v-subheader>COURSES</v-subheader>
         <div class="listScroll">
-          <transition-group
-            enter-active-class="animate__animated animate__fadeIn animate__fast"
-          >
+          <transition-group enter-active-class="animate__animated animate__fadeIn animate__fast">
             <v-list-item
               v-for="course in courses"
               :key="course.id"
@@ -59,14 +57,9 @@
     <!-- Check if a course is selected before rendering to avoid errors -->
     <div v-if="courseIsSelected">
       <!-- Open Selected Course -->
-      <SelectedCourse
-        :open="selectedCourseDialog"
-        :courseId="selectedCourse.id"
-      >
+      <SelectedCourse :open="selectedCourseDialog" :courseId="selectedCourse.id">
         <template v-slot:toolbar-items>
-          <v-icon class="mr-2" @click="confirmDeleteDialog = true"
-            >delete</v-icon
-          >
+          <v-icon class="mr-2" @click="confirmDeleteDialog = true">delete</v-icon>
           <v-btn text @click="closeSelectedCourseDialog">Done</v-btn>
         </template>
       </SelectedCourse>
@@ -98,16 +91,16 @@ export default {
     selectedCourse: {},
     selectedCourseDialog: false,
     requiredField: [
-      (v) => (!!v && v.toString().length > 0) || "Enter course name.",
+      v => (!!v && v.toString().length > 0) || "Enter course name."
     ],
     confirmDeleteDialog: false,
     hashID: "Courses",
     watchDialogs: [
       "newCourseDialog",
       "selectedCourseDialog",
-      "confirmDeleteDialog",
+      "confirmDeleteDialog"
     ],
-    dialogsWithClose: ["newCourseDialog"],
+    dialogsWithClose: ["newCourseDialog"]
   }),
   computed: {
     courses() {
@@ -115,7 +108,7 @@ export default {
     },
     courseIsSelected() {
       return Object.keys(this.selectedCourse).length > 0;
-    },
+    }
   },
   methods: {
     openNewCourseDialog() {
@@ -149,11 +142,17 @@ export default {
     openSelectedCourseDialog(course) {
       this.selectedCourse = course;
       this.selectedCourseDialog = true;
+
+      // Log to GA
+      this.$gtag.event("open_course", {
+        event_category: "courses",
+        event_label: "Open Course"
+      });
     },
     closeSelectedCourseDialog() {
       this.selectedCourseDialog = false;
-    },
-  },
+    }
+  }
 };
 </script>
 

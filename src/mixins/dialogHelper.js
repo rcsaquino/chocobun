@@ -1,9 +1,11 @@
+// For Android "Back"
+
 // How to use:
 // Import mixin
 // Add hashID "str" to component
 // Add watchDialogs [arr] to component
-// **optional** Add dialogsWithClose [arr] to component
-// If with close function, format as "close" + {{ WatchDialogs }}
+// **optional** Add dialogsWithClose [arr] to component if with close function and if so...
+// format as "close" + {{ watchDialogs }}
 
 export default {
   data: () => ({
