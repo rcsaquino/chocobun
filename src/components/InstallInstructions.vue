@@ -1,6 +1,7 @@
 <template>
   <div class="pa-4 background">
     <p class="display-1 font-weight-bold mb-2">How to install</p>
+    <p class="subtitle-2 mb-2">TL;DR: Add this page to your home screen.</p>
     <div v-if="isAndroid">
       <AndroidInstructions />
       <v-divider class="my-4" />

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
-      <v-toolbar dark color="primary">
+      <v-toolbar color="primary" class="textColor--text">
         <v-toolbar-title>BMI Calculator</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>

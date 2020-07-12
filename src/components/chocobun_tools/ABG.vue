@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
-      <v-toolbar dark color="primary">
+      <v-toolbar color="primary" class="textColor--text">
         <v-toolbar-title>ABG Analyzer</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -66,8 +66,8 @@
           <v-text-field v-model="hco" type="number" label="HCO3" dense outlined suffix="mmol/L"></v-text-field>
           <v-text-field v-model="cfio" type="number" label="Current FiO2" dense outlined suffix="%"></v-text-field>
           <v-card-actions class="px-0 py-0 pb-2 buttons">
-            <v-btn color="primary" @click="clear">Clear</v-btn>
-            <v-btn color="primary" @click="analyze">Analyze</v-btn>
+            <v-btn color="primary" class="textColor--text" @click="clear">Clear</v-btn>
+            <v-btn color="primary" class="textColor--text" @click="analyze">Analyze</v-btn>
           </v-card-actions>
         </v-card-text>
       </v-card>

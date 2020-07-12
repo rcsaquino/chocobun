@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
-      <v-toolbar dark color="primary">
+      <v-toolbar color="primary" class="textColor--text">
         <v-toolbar-title>Pregnancy Calculator</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -66,6 +66,7 @@ export default {
     watchDialogs: ["datePicker"]
   }),
   computed: {
+    // Age of Gestation
     aog() {
       let ms = Date.now() - new Date(this.lmp).getTime();
       const days = Math.floor(ms / 86400000);
@@ -75,6 +76,7 @@ export default {
         remainderDays === 1 ? "day" : "days"
       }`;
     },
+    // Ovulatory Age
     oa() {
       let ms = Date.now() - new Date(this.lmp).getTime();
       ms += 1209600000;
@@ -85,6 +87,7 @@ export default {
         remainderDays === 1 ? "day" : "days"
       }`;
     },
+    // Estimated Date of Delivery
     edd() {
       let date = new Date(this.lmp);
       date = new Date(date.setMonth(date.getMonth() + 9, date.getDate() + 7))

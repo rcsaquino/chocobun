@@ -6,10 +6,12 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     courses: [],
+    lists: [],
     swStatus: "Loading...",
     canChangeHash: true,
   },
   mutations: {
+    // Courses
     addCourse(state, newCourse) {
       // Add new course at the beginning of the array
       state.courses.unshift(newCourse);
@@ -25,6 +27,17 @@ export default new Vuex.Store({
         (course) => course.id !== courseToDelete.id
       );
     },
+
+    // Lists
+    addList(state, newList) {
+      // Add new list at the beginning of the array
+      state.lists.unshift(newList);
+    },
+    deleteList(state, listToDelete) {
+      state.lists = state.lists.filter((list) => list.id !== listToDelete.id);
+    },
+
+    // App
     serviceWorker(state, val) {
       state.swStatus = val;
     },

@@ -27,12 +27,11 @@
     <v-btn
       fixed
       fab
-      dark
       color="secondary"
       class="fab animate__animated animate__slideInUp animate__faster"
       @click="openNewCourseDialog"
     >
-      <v-icon>add</v-icon>
+      <v-icon class="textColor--text">add</v-icon>
     </v-btn>
 
     <!-- Add New Course Dialog Box -->
@@ -59,8 +58,8 @@
       <!-- Open Selected Course -->
       <SelectedCourse :open="selectedCourseDialog" :courseId="selectedCourse.id">
         <template v-slot:toolbar-items>
-          <v-icon class="mr-2" @click="confirmDeleteDialog = true">delete</v-icon>
-          <v-btn text @click="closeSelectedCourseDialog">Done</v-btn>
+          <v-icon class="mr-2 textColor--text" @click="confirmDeleteDialog = true">delete</v-icon>
+          <v-btn text class="textColor--text" @click="closeSelectedCourseDialog">Done</v-btn>
         </template>
       </SelectedCourse>
 

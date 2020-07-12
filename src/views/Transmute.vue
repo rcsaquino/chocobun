@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-5 animate__animated animate__fadeInDown animate__faster">
+  <v-card class="px-5 pt-4 pb-2 animate__animated animate__fadeInDown animate__faster">
     <v-form ref="transmuteForm">
       <div class="baseSelect">
         <v-select v-model="base" :items="baseChoices" label="Base"></v-select>
@@ -18,7 +18,7 @@
         :rules="numbersOnly"
         color="accent"
       />
-      <v-btn class="mt-2" color="secondary" @click="transmuteScore"
+      <v-btn class="mt-2 textColor--text" color="secondary" @click="transmuteScore"
         >Transmute</v-btn
       >
     </v-form>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import appInfo from "../../package.json";
+import { version } from "../../package.json";
 import TransmuteMixin from "@/mixins/TransmuteMixin.js";
 
 export default {
@@ -43,15 +43,9 @@ export default {
     numbersOnly: [(v) => (v && !isNaN(v)) || "Please input numbers."],
     passingScore: window.location.href.includes("chocobunapp")
       ? "Developer Build"
-      : "Chocobun App by Chocobun Fam",
-    transmutedGrade: `v${appInfo.version}`,
+      : "Made by Chocobun Fam",
+    transmutedGrade: `v${version}`,
   }),
-
-  computed: {
-    appVersion() {
-      return appInfo.version;
-    },
-  },
 
   methods: {
     transmuteScore() {

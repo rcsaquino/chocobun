@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
-      <v-toolbar dark color="primary">
+      <v-toolbar color="primary" class="textColor--text">
         <v-toolbar-title>{{ course.name }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -29,11 +29,11 @@
         <i>Tap the + icon to add a new syllabus.</i>
       </v-card-text>
       <div class="px-5 pt-4" v-else>
-        <v-chip class="finalGradePill" color="primary">Final Grade: {{ finalGrade }}</v-chip>
+        <v-chip class="finalGradePill textColor--text" color="primary">Final Grade: {{ finalGrade }}</v-chip>
       </div>
 
-      <v-btn fixed bottom right fab dark color="secondary" @click="openNewSyllabusDialog">
-        <v-icon>add</v-icon>
+      <v-btn fixed bottom right fab color="secondary" @click="openNewSyllabusDialog">
+        <v-icon class="textColor--text">add</v-icon>
       </v-btn>
 
       <!-- Add New Syllabus Dialog Box -->

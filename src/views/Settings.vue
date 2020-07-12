@@ -2,9 +2,16 @@
   <div>
     <v-card class="animate__animated animate__fadeInDown animate__faster">
       <v-card-title>Settings</v-card-title>
-      <v-card-text>
-        <v-switch v-model="darkMode" label="Dark Mode" class="my-2" />
-        <v-btn color="secondary" @click="confirmClearDialog = true">Clear All Data</v-btn>
+      <v-card-text class="py-0">
+        <v-switch v-model="darkMode" label="Dark Mode" class="my-1" />
+        <v-select
+          v-model="selectedTheme"
+          :items="themes"
+          label="Theme"
+          outlined
+          dense
+          class="themeSelector"
+        ></v-select>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-text>
@@ -16,11 +23,19 @@
           Send feedback:
           <a
             onclick="window.location.href = 'mailto:rcsaquino.dev@gmail.com?Subject=[FEEDBACK]%20Chocobun%20App'"
-          >rcsaquino.dev@gmail.com</a>
+            >rcsaquino.dev@gmail.com</a
+          >
         </p>
-        <p class="mb-0">© 2018-2020</p>
+        <p class="mb-0">© 2018-{{ new Date().getFullYear() }}</p>
       </v-card-text>
     </v-card>
+    <v-btn
+      text
+      color="secondary"
+      class="deleteButton mt-4 animate__animated animate__fadeInDown animate__faster"
+      @click="confirmClearDialog = true"
+      >Clear All Data</v-btn
+    >
     <!-- Confirm Clear Dialog Box -->
     <DialogBox
       :open="confirmClearDialog"
@@ -30,7 +45,8 @@
       @proceed="clearData"
       snackbarText="Cleared all data."
       :snackbarTrigger="snackbarTrigger"
-    >Are you sure you want to continue? This can not be undone.</DialogBox>
+      >This will clear all data except for randomization history.</DialogBox
+    >
   </div>
 </template>
 
@@ -38,20 +54,24 @@
 import store from "@/store";
 import DialogBox from "@/components/DialogBox.vue";
 import dialogHelper from "@/mixins/dialogHelper";
+import themeSelector from "@/mixins/themeSelector";
 
 export default {
-  mixins: [dialogHelper],
+  mixins: [dialogHelper, themeSelector],
   components: { DialogBox },
   data: () => ({
+    selectedTheme: "Chocobun",
     confirmClearDialog: false,
     snackbarTrigger: 0,
     darkMode: false,
+    themes: ["Chocobun", "Turon", "Choco Butternut"],
     hashID: "Settings",
-    watchDialogs: ["confirmClearDialog"]
+    watchDialogs: ["confirmClearDialog"],
   }),
 
   created() {
     this.darkMode = JSON.parse(localStorage.getItem("dark_mode"));
+    this.selectedTheme = localStorage.getItem("theme") || "Chocobun";
   },
 
   watch: {
@@ -63,14 +83,21 @@ export default {
       } else {
         document.body.style.background = "#FFFFFF";
       }
-    }
+    },
+    selectedTheme(theme) {
+      this.switchTheme(theme);
+      localStorage.setItem("theme", theme);
+    },
   },
 
   methods: {
     clearData() {
       this.confirmClearDialog = false;
-      store.state.courses.forEach(course => {
+      store.state.courses.forEach((course) => {
         this.$store.commit("deleteCourse", course);
+      });
+      store.state.lists.forEach((list) => {
+        this.$store.commit("deleteList", list);
       });
       this.snackbarTrigger++;
     },
@@ -79,18 +106,25 @@ export default {
         navigator.share({
           title: "Chocobun App",
           text: "Check out chocobun app!",
-          url: "https://chocobun.web.app/"
+          url: "https://chocobun.web.app/",
         });
       } else {
         window.open("https://chocobun.web.app/");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .shareButtons {
   width: 50%;
+}
+.themeSelector {
+  width: 50%;
+}
+.deleteButton {
+  width: 100%;
+  margin: auto;
 }
 </style>

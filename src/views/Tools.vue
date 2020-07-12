@@ -20,7 +20,7 @@
     <BMICalc :open="bmiCalc">
       <template v-slot:toolbar-items>
         <v-btn icon @click="bmiCalc = false">
-          <v-icon>clear</v-icon>
+          <v-icon class="textColor--text">clear</v-icon>
         </v-btn>
       </template>
     </BMICalc>
@@ -29,7 +29,7 @@
     <PregnancyCalc :open="pregnancyCalc">
       <template v-slot:toolbar-items>
         <v-btn icon @click="pregnancyCalc = false">
-          <v-icon>clear</v-icon>
+          <v-icon class="textColor--text">clear</v-icon>
         </v-btn>
       </template>
     </PregnancyCalc>
@@ -38,10 +38,19 @@
     <ABG :open="abgAnalyzer">
       <template v-slot:toolbar-items>
         <v-btn icon @click="abgAnalyzer = false">
-          <v-icon>clear</v-icon>
+          <v-icon class="textColor--text">clear</v-icon>
         </v-btn>
       </template>
     </ABG>
+
+    <!-- Randomizer -->
+    <Randomizer :open="randomizer">
+      <template v-slot:toolbar-items>
+        <v-btn icon @click="randomizer = false">
+          <v-icon class="textColor--text">clear</v-icon>
+        </v-btn>
+      </template>
+    </Randomizer>
   </v-card>
 </template>
 
@@ -49,34 +58,41 @@
 import BMICalc from "@/components/chocobun_tools/BMICalc.vue";
 import PregnancyCalc from "@/components/chocobun_tools/PregnancyCalc.vue";
 import ABG from "@/components/chocobun_tools/ABG.vue";
+import Randomizer from "@/components/chocobun_tools/Randomizer.vue";
 import dialogHelper from "@/mixins/dialogHelper";
 
 export default {
   mixins: [dialogHelper],
-  components: { BMICalc, PregnancyCalc, ABG },
+  components: { BMICalc, PregnancyCalc, ABG, Randomizer },
   data: () => ({
     tools: [
       { name: "BMI Calculator", icon: "fitness_center", opener: "bmiCalc" },
       {
         name: "Pregnancy Calculator",
         icon: "pregnant_woman",
-        opener: "pregnancyCalc",
+        opener: "pregnancyCalc"
       },
       {
         name: "ABG Analyzer",
         icon: "airline_seat_individual_suite",
-        opener: "abgAnalyzer",
+        opener: "abgAnalyzer"
       },
+      {
+        name: "Randomizer",
+        icon: "casino",
+        opener: "randomizer"
+      }
     ],
     bmiCalc: false,
     pregnancyCalc: false,
     abgAnalyzer: false,
+    randomizer: false,
     hashID: "Tools",
-    watchDialogs: ["bmiCalc", "pregnancyCalc", "abgAnalyzer"],
+    watchDialogs: ["bmiCalc", "pregnancyCalc", "abgAnalyzer", "randomizer"]
   }),
   methods: {
     reroute(path) {
-      this.$router.push(path).catch((err) => {});
+      this.$router.push(path).catch(err => {});
     },
     openTool(opener, name) {
       this[opener] = true;
@@ -84,9 +100,9 @@ export default {
       // Log to GA
       this.$gtag.event("open_tool", {
         event_category: "tools",
-        event_label: name,
+        event_label: name
       });
-    },
-  },
+    }
+  }
 };
 </script>
