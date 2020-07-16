@@ -232,7 +232,7 @@ export default {
           this.result.items[i]
         ];
       }
-      // add timestamp
+      // Add timestamp
       this.result.time = new Date().toString().substring(4, 24);
 
       // Add randomization to history

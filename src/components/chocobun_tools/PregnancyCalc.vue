@@ -90,9 +90,20 @@ export default {
     // Estimated Date of Delivery
     edd() {
       let date = new Date(this.lmp);
-      date = new Date(date.setMonth(date.getMonth() + 9, date.getDate() + 7))
-        .toISOString()
-        .substr(0, 10);
+      if (date.getMonth() <= 2) {
+        // If LMP is Jan-Mar
+        date = new Date(date.setMonth(date.getMonth() + 9, date.getDate() + 7))
+          .toISOString()
+          .substr(0, 10);
+      } else {
+        // If LMP is Apr-Dec
+        date = new Date(date.setDate(date.getDate() + 7));
+        date = new Date(date.setMonth(date.getMonth() - 3));
+        date = new Date(date.setYear(date.getFullYear() + 1))
+          .toISOString()
+          .substr(0, 10);
+      }
+
       return date;
     }
   }
