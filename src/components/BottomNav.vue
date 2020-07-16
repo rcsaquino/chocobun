@@ -21,15 +21,18 @@ export default {
       { name: "Transmute", icon: "assignment", path: "/" },
       { name: "Courses", icon: "collections_bookmark", path: "/courses" },
       { name: "Tools", icon: "widgets", path: "/tools" },
-      { name: "Settings", icon: "settings", path: "/settings" }
-    ]
+      { name: "Settings", icon: "settings", path: "/settings" },
+    ],
   }),
+  created() {
+    this.currentView = this.$route.name;
+  },
   methods: {
     reroute(path) {
       this.$store.commit("requestChangeHash", true);
-      this.$router.push(path).catch(err => {});
-    }
-  }
+      this.$router.push(path).catch((err) => {});
+    },
+  },
 };
 </script>
 

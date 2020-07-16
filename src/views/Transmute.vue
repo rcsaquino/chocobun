@@ -1,5 +1,7 @@
 <template>
-  <v-card class="px-5 pt-4 pb-2 animate__animated animate__fadeInDown animate__faster">
+  <v-card
+    class="px-5 pt-4 pb-2 animate__animated animate__fadeInDown animate__faster"
+  >
     <v-form ref="transmuteForm">
       <div class="baseSelect">
         <v-select v-model="base" :items="baseChoices" label="Base"></v-select>
@@ -18,7 +20,10 @@
         :rules="numbersOnly"
         color="accent"
       />
-      <v-btn class="mt-2 textColor--text" color="secondary" @click="transmuteScore"
+      <v-btn
+        class="mt-2 textColor--text"
+        color="secondary"
+        @click="transmuteScore"
         >Transmute</v-btn
       >
     </v-form>

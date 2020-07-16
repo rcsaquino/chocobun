@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="open"
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition"
+  >
     <v-card>
       <v-toolbar color="primary" class="textColor--text">
         <v-toolbar-title>Pregnancy Calculator</v-toolbar-title>
@@ -12,10 +17,14 @@
       <!-- Prgnancy Calculator -->
       <div class="pa-3">
         <v-card class="px-2 pt-3 mb-3">
-          <v-card-text>
-            <p>Age of Gestation: {{ aog }}</p>
-            <p>Ovulatory Age: {{ oa }}</p>
-            <p>Estimated Date of Delivery: {{ edd }}</p>
+          <v-card-text class="pt-2 pb-4">
+            <div><strong>Age of Gestation:</strong> {{ aog }}</div>
+            <div><strong>Ovulatory Age:</strong> {{ oa }}</div>
+            <div><strong>Estimated Date of Delivery:</strong></div>
+            <ul>
+              <li><strong>Naegele's Rule:</strong> {{ edd.naegele }}</li>
+              <li><strong>280 Days Rule:</strong> {{ edd.days }}</li>
+            </ul>
           </v-card-text>
         </v-card>
         <v-card class="px-5 pt-8">
@@ -36,10 +45,17 @@
                 outlined
               ></v-text-field>
             </template>
-            <v-date-picker v-model="lmp" :max="new Date().toISOString().substr(0, 10)">
+            <v-date-picker
+              v-model="lmp"
+              :max="new Date().toISOString().substr(0, 10)"
+            >
               <v-spacer></v-spacer>
-              <v-btn text color="secondary" @click="datePicker = false">Cancel</v-btn>
-              <v-btn text color="secondary" @click="$refs.dialog.save(lmp)">OK</v-btn>
+              <v-btn text color="secondary" @click="datePicker = false"
+                >Cancel</v-btn
+              >
+              <v-btn text color="secondary" @click="$refs.dialog.save(lmp)"
+                >OK</v-btn
+              >
             </v-date-picker>
           </v-dialog>
         </v-card>
@@ -56,14 +72,14 @@ export default {
   props: {
     open: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     lmp: new Date().toISOString().substr(0, 10),
     datePicker: false,
     hashID: "PregnancyCalc",
-    watchDialogs: ["datePicker"]
+    watchDialogs: ["datePicker"],
   }),
   computed: {
     // Age of Gestation
@@ -90,22 +106,19 @@ export default {
     // Estimated Date of Delivery
     edd() {
       let date = new Date(this.lmp);
-      if (date.getMonth() <= 2) {
-        // If LMP is Jan-Mar
-        date = new Date(date.setMonth(date.getMonth() + 9, date.getDate() + 7))
-          .toISOString()
-          .substr(0, 10);
-      } else {
-        // If LMP is Apr-Dec
-        date = new Date(date.setDate(date.getDate() + 7));
-        date = new Date(date.setMonth(date.getMonth() - 3));
-        date = new Date(date.setYear(date.getFullYear() + 1))
-          .toISOString()
-          .substr(0, 10);
-      }
-
-      return date;
-    }
-  }
+      const results = {};
+      // Naegele's Rule
+      results.naegele = new Date(date.setDate(date.getDate() + 7));
+      results.naegele = new Date(date.setMonth(date.getMonth() + 9))
+        .toISOString()
+        .substr(0, 10);
+      // 280 Days Rule
+      date = new Date(this.lmp);
+      results.days = new Date(date.setDate(date.getDate() + 280))
+        .toISOString()
+        .substr(0, 10);
+      return results;
+    },
+  },
 };
 </script>

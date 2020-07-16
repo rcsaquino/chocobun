@@ -3,12 +3,14 @@
     <v-app-bar app color="primary">
       <v-toolbar-title class="textColor--text">Chocobun</v-toolbar-title>
     </v-app-bar>
+    <!-- Main -->
     <div v-if="isInstalled || devMode">
       <BottomNav />
       <v-content class="no-scroll">
         <router-view />
       </v-content>
     </div>
+    <!-- Installation -->
     <v-content v-else>
       <InstallInstructions v-show="swStatus === 'ready'" />
       <div v-show="swStatus !== 'ready'" class="chocobun-bg no-scroll">
@@ -42,6 +44,19 @@
         </v-card>
       </div>
     </v-content>
+    <!-- Update Snackbar -->
+    <v-snackbar
+      color="primary"
+      class="textColor--text"
+      v-model="snackbar.model"
+      :timeout="snackbar.timeout"
+      @click="updateApp"
+    >
+      <span>{{ snackbar.text }}</span>
+      <v-icon class="textColor--text" @click.stop="snackbar.model = false"
+        >close</v-icon
+      >
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -50,6 +65,7 @@ import BottomNav from "@/components/BottomNav.vue";
 import store from "@/store";
 import InstallInstructions from "@/components/InstallInstructions.vue";
 import themeSelector from "@/mixins/themeSelector";
+import { version } from "../package.json";
 
 export default {
   name: "App",
@@ -58,6 +74,13 @@ export default {
     InstallInstructions,
   },
   mixins: [themeSelector],
+  data: () => ({
+    snackbar: {
+      model: false,
+      text: "",
+      timeout: 0,
+    },
+  }),
   computed: {
     isInstalled() {
       const isInstalled =
@@ -78,6 +101,31 @@ export default {
       return /android/i.test(userAgent) || isWindows
         ? "Google Chrome"
         : "Safari";
+    },
+  },
+  watch: {
+    // Watch swStatus to monitor for updates
+    swStatus(status) {
+      if (this.isInstalled) {
+        if (status === "Downloading...") {
+          this.snackbar.text = "Update found! Downloading update...";
+          this.snackbar.timeout = 5000;
+          this.snackbar.model = true;
+        }
+        if (status === "Please refresh the page.") {
+          this.snackbar.text = "Update downloaded! Tap here to install.";
+          this.snackbar.timeout = 15000;
+          if (this.snackbar.model === true) {
+            this.snackbar.model = false;
+            setTimeout(() => {
+              this.snackbar.model = true;
+            }, 150);
+          } else {
+            this.snackbar.model = true;
+          }
+          localStorage.setItem("recentlyUpdated", true);
+        }
+      }
     },
   },
 
@@ -114,6 +162,29 @@ export default {
         localStorage.setItem("lists", JSON.stringify(state.lists));
       }
     });
+
+    // Check if recently updated
+    if (JSON.parse(localStorage.getItem("recentlyUpdated"))) {
+      localStorage.setItem("recentlyUpdated", false);
+      // Log to GA
+      this.$gtag.event("update_app", {
+        event_category: "update",
+        event_label: "Updated using snackbar",
+      });
+      this.snackbar.text = `Updated to version ${version}`;
+      this.snackbar.timeout = 2500;
+      setTimeout(() => {
+        this.snackbar.model = true;
+      }, 300);
+    }
+  },
+
+  methods: {
+    updateApp() {
+      if (JSON.parse(localStorage.getItem("recentlyUpdated"))) {
+        location.reload();
+      }
+    },
   },
 };
 </script>
