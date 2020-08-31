@@ -19,7 +19,6 @@
         <v-card class="px-2 pt-3 mb-3">
           <v-card-text class="pt-2 pb-4">
             <div><strong>Age of Gestation:</strong> {{ aog }}</div>
-            <div><strong>Ovulatory Age:</strong> {{ oa }}</div>
             <div><strong>Estimated Date of Delivery:</strong></div>
             <ul>
               <li><strong>Naegele's Rule:</strong> {{ edd.naegele }}</li>
@@ -85,17 +84,6 @@ export default {
     // Age of Gestation
     aog() {
       let ms = Date.now() - new Date(this.lmp).getTime();
-      const days = Math.floor(ms / 86400000);
-      const weeks = Math.floor(days / 7);
-      const remainderDays = days % 7;
-      return `${weeks} ${weeks === 1 ? "week" : "weeks"} & ${remainderDays} ${
-        remainderDays === 1 ? "day" : "days"
-      }`;
-    },
-    // Ovulatory Age
-    oa() {
-      let ms = Date.now() - new Date(this.lmp).getTime();
-      ms += 1209600000;
       const days = Math.floor(ms / 86400000);
       const weeks = Math.floor(days / 7);
       const remainderDays = days % 7;
