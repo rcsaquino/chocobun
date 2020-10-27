@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="open" fullscreen hide-overlay transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="open"
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition"
+  >
     <v-card tile>
       <v-toolbar color="primary" class="textColor--text">
         <v-toolbar-title>Randomizer</v-toolbar-title>
@@ -17,25 +22,41 @@
             <v-card class="list-container">
               <v-card-text>
                 <ol>
-                  <li v-for="(item, index) in list.items" :key="index">{{ item }}</li>
+                  <li v-for="(item, index) in list.items" :key="index">
+                    {{ item }}
+                  </li>
                 </ol>
               </v-card-text>
             </v-card>
-            <v-btn color="primary" outlined class="list-btn mt-4" @click="randomize(list)">Randomize</v-btn>
+            <v-btn
+              color="primary"
+              outlined
+              class="list-btn mt-4"
+              @click="randomize(list)"
+              >Randomize</v-btn
+            >
             <v-btn
               color="primary"
               x-small
               outlined
               class="list-btn"
               @click="openConfirmDeleteDialog(list)"
-            >Delete List</v-btn>
+              >Delete List</v-btn
+            >
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
       <v-card-text class="px-4 pt-4">
         <i>Tap the + icon to add a new list.</i>
       </v-card-text>
-      <v-btn fixed bottom right fab color="secondary" @click="newListDialog = true">
+      <v-btn
+        fixed
+        bottom
+        right
+        fab
+        color="secondary"
+        @click="newListDialog = true"
+      >
         <v-icon class="textColor--text">add</v-icon>
       </v-btn>
 
@@ -62,13 +83,17 @@
                         class="body-2"
                         v-for="(item, index) in result.items"
                         :key="index"
-                      >{{ index + 1 }}. {{ item }}</div>
+                      >
+                        {{ index + 1 }}. {{ item }}
+                      </div>
                     </div>
                     <v-divider></v-divider>
                     <div class="body-2 pt-2">
                       <i>
-                        Tip: Use the history tab to prove authenticity of
-                        randomization.
+                        Randomized with
+                        <span class="primary--text"
+                          >https://chocobun.web.app/</span
+                        >
                       </i>
                     </div>
                   </v-card>
@@ -78,14 +103,13 @@
                   <v-card flat>
                     <v-card-text class="pt-1 px-0 pb-0 ma-0">
                       Recent randomizations:
-                      <div
-                        v-for="(history, index) in history"
-                        :key="index"
-                      >[{{ history.time }}]: {{ history.label }}</div>
+                      <div v-for="(history, index) in history" :key="index">
+                        [{{ history.time }}]: {{ history.label }}
+                      </div>
                       <v-divider class="my-1"></v-divider>
                       <i>
-                        Randomized with
-                        <span class="primary--text">https://chocobun.web.app/</span>
+                        Tip: Use this tab to prove authenticity of
+                        randomization.
                       </i>
                     </v-card-text>
                   </v-card>
@@ -93,7 +117,9 @@
               </v-tabs-items>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn text color="secondary" @click="openResults = false">Close</v-btn>
+                <v-btn text color="secondary" @click="openResults = false"
+                  >Close</v-btn
+                >
               </v-card-actions>
             </div>
           </div>
@@ -152,8 +178,8 @@ export default {
   props: {
     open: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   created() {
     // Hydrate history
@@ -164,7 +190,7 @@ export default {
       // Add "Initialized Randomizer" if no history record found
       const newHistory = {
         label: "Initialized Randomizer",
-        time: new Date().toString().substring(4, 24)
+        time: new Date().toString().substring(4, 24),
       };
       this.history.push(newHistory);
     }
@@ -182,30 +208,30 @@ export default {
     hashID: "Randomizer",
     watchDialogs: ["newListDialog", "confirmDeleteDialog", "openResults"],
     dialogsWithClose: ["newListDialog"],
-    requiredField: [v => (!!v && v.toString().length > 0) || "Required field."]
+    requiredField: [
+      (v) => (!!v && v.toString().length > 0) || "Required field.",
+    ],
   }),
   computed: {
     lists() {
       return this.$store.state.lists;
-    }
+    },
   },
   watch: {
     history(newHistory) {
       localStorage.setItem("history", JSON.stringify(newHistory));
-    }
+    },
   },
   methods: {
     addNewList() {
       if (this.$refs.listForm.validate()) {
         // Add ID
         this.newList.id =
-          Math.random()
-            .toString(36)
-            .substring(2) + Date.now().toString(36);
+          Math.random().toString(36).substring(2) + Date.now().toString(36);
         // Split the string on line breaks
         this.newList.items = this.newList.items.split(/\r?\n/);
         // Remove blanks
-        this.newList.items = this.newList.items.filter(item => item !== "");
+        this.newList.items = this.newList.items.filter((item) => item !== "");
         // Commit and close dialog
         this.$store.commit("addList", this.newList);
         this.closeNewListDialog();
@@ -229,7 +255,7 @@ export default {
         let j = Math.floor(Math.random() * (i + 1));
         [this.result.items[i], this.result.items[j]] = [
           this.result.items[j],
-          this.result.items[i]
+          this.result.items[i],
         ];
       }
       // Add timestamp
@@ -238,7 +264,7 @@ export default {
       // Add randomization to history
       this.history.unshift({
         label: this.result.label,
-        time: this.result.time
+        time: this.result.time,
       });
       // Limit history to 8 most recent
       while (this.history.length > 8) {
@@ -249,8 +275,8 @@ export default {
     openConfirmDeleteDialog(list) {
       this.selectedList = list;
       this.confirmDeleteDialog = true;
-    }
-  }
+    },
+  },
 };
 </script>
 
