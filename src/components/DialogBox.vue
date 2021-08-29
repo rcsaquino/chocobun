@@ -17,8 +17,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar color="primary" v-model="snackbar" :timeout="700">
-      <span>{{ snackbarText }}</span>
+    <v-snackbar color="primary" v-model="snackbar" :timeout="800">
+      <span class="textColor--text">{{ snackbarText }}</span>
     </v-snackbar>
   </div>
 </template>
