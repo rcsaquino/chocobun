@@ -1,0 +1,7 @@
+{
+	"extends": ["eslint:recommended", "preact"],
+	"plugins": ["unicorn"],
+	"rules": {
+		"unicorn/no-unused-properties": "error"
+	}
+}
