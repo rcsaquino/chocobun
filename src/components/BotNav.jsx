@@ -22,7 +22,7 @@ export default function BotNav() {
 	}
 
 	// Redirect to home if navigating to invalid url
-	if (!Object.values(views).includes(window.location.pathname)) {
+	if (!views.some(view => view.link === currentPath)) {
 		reroute("/");
 	}
 
