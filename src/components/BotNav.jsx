@@ -4,7 +4,7 @@ import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
 import { route } from "preact-router";
-import { useState } from "preact/hooks";
+import { useStore } from "../store";
 
 const views = [
 	{ icon: <CalculateRoundedIcon />, link: "/" },
@@ -14,27 +14,23 @@ const views = [
 ];
 
 export default function BotNav() {
-	const [currentPath, setCurrentPath] = useState(window.location.pathname);
-
-	function reroute(path) {
-		route(path);
-		setCurrentPath(path);
-	}
+	const [store] = useStore();
 
 	// Redirect to home if navigating to invalid url
-	if (!views.some(view => view.link === currentPath)) {
-		reroute("/");
+	if (!views.some(view => view.link === store.currentPath)) {
+		route("/");
 	}
 
 	return (
 		<Box sx={styles.botNav}>
-			<BottomNavigation value={currentPath}>
+			<BottomNavigation value={store.currentPath}>
 				{views.map((view, viewIndex) => (
 					<BottomNavigationAction
 						key={viewIndex}
 						icon={view.icon}
 						value={view.link}
-						onClick={() => reroute(view.link)}
+						// Add true argument to prevent back in android for base url
+						onClick={() => route(view.link, true)}
 					/>
 				))}
 			</BottomNavigation>

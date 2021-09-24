@@ -27,6 +27,7 @@ localStorageItems.forEach(item => {
 
 // Set initial state to local storage values if available
 initialState = {
+	// Local Storage
 	courses: initialState.courses instanceof Array ? initialState.courses : [],
 	gradingSystem: initialState.grading || 65,
 	lists: initialState.lists instanceof Array ? initialState.lists : [],
@@ -43,6 +44,8 @@ initialState = {
 		initialState.theme instanceof Object
 			? initialState.theme
 			: { mode: "light", color: "chocobun" },
+	// Others
+	currentPath: location.pathname,
 };
 
 // Clean up local storage if necessary
@@ -51,6 +54,7 @@ localStorage.length === localStorageItems.length || localStorage.clear();
 function StoreProvider({ children }) {
 	// Initialize store
 	const [store, setStore] = useState(initialState);
+	// Initialize Refs
 
 	// Update local storage as store gets updated
 

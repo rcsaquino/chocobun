@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 
 // useAutoFocus
 function useAutoFocus(state, id) {
@@ -23,4 +23,43 @@ function useValidation(defaultViolations) {
 	return [violations, validation, resetValidation];
 }
 
-export { useAutoFocus, useValidation };
+// useDidMountEffect
+function useDidMountEffect(runFunction, dependencies) {
+	const didMount = useRef(false);
+
+	useEffect(() => {
+		if (didMount.current) runFunction();
+		else didMount.current = true;
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, dependencies);
+}
+
+// useModalHash - for android back button
+function useModalHash(hashName, isOpen, closeModal) {
+	useDidMountEffect(() => {
+		let hashArr = location.hash ? location.hash.split("/") : [];
+		if (isOpen) {
+			hashArr.push(hashName);
+			history.pushState({}, "", `${location.pathname}#/${hashArr.join("/")}`);
+		} else {
+			hashArr.pop();
+			if (hashArr !== []) hashArr.shift();
+			history.replaceState({}, "", `${location.pathname}${hashArr.join("/")}`);
+		}
+	}, [isOpen]);
+
+	useEffect(() => {
+		function hashJustChanged() {
+			if (!location.hash.includes(hashName)) {
+				closeModal();
+			}
+		}
+		addEventListener("hashchange", hashJustChanged);
+		return () => {
+			removeEventListener("hashchange", hashJustChanged);
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+}
+
+export { useAutoFocus, useValidation, useModalHash, useDidMountEffect };

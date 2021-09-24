@@ -15,7 +15,11 @@ import {
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useState } from "preact/hooks";
-import { useValidation, useAutoFocus } from "../../../../functions/customHooks";
+import {
+	useValidation,
+	useAutoFocus,
+	useModalHash,
+} from "../../../../functions/customHooks";
 import { useStore } from "../../../../store";
 import {
 	content_transmute_score,
@@ -25,11 +29,19 @@ import { TransitionGroup } from "react-transition-group";
 
 export default function Content({ courseIndex, contentIndex, closeExpansion }) {
 	const [store, updateStore] = useStore();
-	const [newScoreDialog, setNewScoreDialog] = useState(false);
 	const [yourScore, setYourScore] = useState();
 	const [totalItems, setTotalItems] = useState();
-	const [deleteContentDialog, setDeleteContentDialog] = useState(false);
 	const content = store.courses[courseIndex]?.syllabi[contentIndex];
+
+	// Modals
+	const [newScoreDialog, setNewScoreDialog] = useState(false);
+	const [deleteContentDialog, setDeleteContentDialog] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("new_score", newScoreDialog, closeNewScoreDialog);
+	useModalHash("delete_content", deleteContentDialog, () =>
+		setDeleteContentDialog(false)
+	);
 
 	// Autofocus chrome fix
 	useAutoFocus(newScoreDialog, "your-score-field");

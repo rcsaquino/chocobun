@@ -28,6 +28,7 @@ import GradingRoundedIcon from "@mui/icons-material/GradingRounded";
 import RotateLeftRoundedIcon from "@mui/icons-material/RotateLeftRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { useState } from "preact/hooks";
+import { useModalHash } from "../functions/customHooks";
 
 const themeColors = [
 	{ label: "Chocobun", value: "chocobun" },
@@ -39,7 +40,12 @@ const themeColors = [
 
 export default function Settings() {
 	const [store, updateStore, setStore] = useStore();
+
+	// Modals
 	const [resetDataDialog, setResetDataDialog] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("reset_data", resetDataDialog, () => setResetDataDialog(false));
 
 	function changeGradingSystem(base) {
 		const tempCourses = deep_clone(store.courses);

@@ -10,6 +10,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { useState } from "preact/hooks";
+import { useModalHash } from "../../functions/customHooks";
 
 export default function ABG() {
 	const [age, setAge] = useState("");
@@ -19,10 +20,15 @@ export default function ABG() {
 	const [hco3Value, setHco3Value] = useState("");
 	const [fio2Value, setFio2Value] = useState("");
 
-	const [resultsIsOpen, setResultsIsOpen] = useState(false);
 	const [findings, setFindings] = useState("");
 	const [tableData, setTableData] = useState([]);
 	const [preTableData, setPreTableData] = useState([]);
+
+	// Modals
+	const [resultsIsOpen, setResultsIsOpen] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("abg_result", resultsIsOpen, () => setResultsIsOpen(false));
 
 	function clearAll() {
 		setAge("");

@@ -11,6 +11,7 @@ import {
 	DialogTitle,
 } from "@mui/material";
 import { useState } from "preact/hooks";
+import { useModalHash } from "../../functions/customHooks";
 
 const monthNames = [
 	"January",
@@ -76,7 +77,14 @@ export default function PregnancyCalc() {
 	const [selectedDay, setSelectedDay] = useState(currentDate.getDate());
 	const [AOG, setAOG] = useState("");
 	const [EDD, setEDD] = useState({ naegele: "", days: "" });
+
+	// Modals
 	const [resultsIsOpen, setResultsIsOpen] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("pregnancy_result", resultsIsOpen, () =>
+		setResultsIsOpen(false)
+	);
 
 	const numberOfDays = getNumberOfDays(selectedYear, selectedMonth);
 

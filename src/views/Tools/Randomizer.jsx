@@ -22,7 +22,7 @@ import { useEffect, useState } from "preact/hooks";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { deep_clone } from "../../functions/utilities";
-import { useAutoFocus } from "../../functions/customHooks";
+import { useAutoFocus, useModalHash } from "../../functions/customHooks";
 import SwipeableViews from "react-swipeable-views";
 
 function getResultHeight(length, selectedTab) {
@@ -33,15 +33,21 @@ function getResultHeight(length, selectedTab) {
 export default function Randomizer() {
 	const [store, updateStore] = useStore();
 	const [expanded, setExpanded] = useState();
-	const [newListDialog, setNewListDialog] = useState(false);
 	const [newListLabel, setNewListLabel] = useState("");
 	const [newListItems, setNewListItems] = useState("");
-	const [resultsIsOpen, setResultsIsOpen] = useState(false);
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [randomizedList, setRandomizedList] = useState([]);
 	const [resultBoxStyle, setResultBoxStyle] = useState({});
 	const lists = store.lists;
 	const history = store.history;
+
+	// Modals
+	const [newListDialog, setNewListDialog] = useState(false);
+	const [resultsIsOpen, setResultsIsOpen] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("new_list", newListDialog, closeNewListDialog);
+	useModalHash("random_result", resultsIsOpen, closeResults);
 
 	// Autoresize result dialog box according to selected tab
 	useEffect(() => {
@@ -105,6 +111,11 @@ export default function Randomizer() {
 
 		// Open results
 		setResultsIsOpen(true);
+	}
+
+	function closeResults() {
+		setResultsIsOpen(false);
+		setSelectedTab(0);
 	}
 
 	return (
@@ -266,14 +277,7 @@ export default function Randomizer() {
 					</SwipeableViews>
 				</Box>
 				<DialogActions>
-					<Button
-						onClick={() => {
-							setResultsIsOpen(false);
-							setSelectedTab(0);
-						}}
-					>
-						Close
-					</Button>
+					<Button onClick={closeResults}>Close</Button>
 				</DialogActions>
 			</Dialog>
 		</Box>

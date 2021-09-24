@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useState } from "preact/hooks";
 import { transmute_score } from "../functions/utilities";
-import { useValidation } from "../functions/customHooks";
+import { useModalHash, useValidation } from "../functions/customHooks";
 import { useStore } from "../store";
 
 export default function Transmute() {
@@ -23,9 +23,16 @@ export default function Transmute() {
 	const [passingScore, setPassingScore] = useState(0);
 	const [status, setStatus] = useState("");
 	const [transmuted, setTransmuted] = useState(0);
-	const [resultsIsOpen, setResultsIsOpen] = useState(false);
 	const [yourScore, setYourScore] = useState();
 	const [totalItems, setTotalItems] = useState();
+
+	// Modals
+	const [resultsIsOpen, setResultsIsOpen] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("transmute_result", resultsIsOpen, () =>
+		setResultsIsOpen(false)
+	);
 
 	// Form Validations
 	const [violations, validation] = useValidation({

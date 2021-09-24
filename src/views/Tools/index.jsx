@@ -30,6 +30,7 @@ import LocalDrinkRoundedIcon from "@mui/icons-material/LocalDrinkRounded";
 
 import Randomizer from "./Randomizer";
 import CasinoRoundedIcon from "@mui/icons-material/CasinoRounded";
+import { useModalHash } from "../../functions/customHooks";
 
 const tools = [
 	{
@@ -70,7 +71,16 @@ tools.forEach(tool => {
 });
 
 export default function Tools() {
+	// Modals
 	const [isOpen, setIsOpen] = useState(initialToolsState);
+
+	// Modal Hash Helpers
+	tools.forEach(tool => {
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		useModalHash(tool.shortName, isOpen[tool.shortName], () =>
+			setIsOpen({ ...isOpen, [tool.shortName]: false })
+		);
+	});
 
 	return (
 		<Slide in={window.location.pathname === "/tools"} timeout={500}>

@@ -20,17 +20,27 @@ import BookRoundedIcon from "@mui/icons-material/BookRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { useState } from "preact/hooks";
 import Course from "./Course";
-import { useAutoFocus, useValidation } from "../../functions/customHooks";
+import {
+	useAutoFocus,
+	useModalHash,
+	useValidation,
+} from "../../functions/customHooks";
 import { useStore } from "../../store";
 import { TransitionGroup } from "react-transition-group";
 import { deep_clone } from "../../functions/utilities";
 
 export default function Courses() {
 	const [store, updateStore] = useStore();
-	const [newCourseDialog, setNewCourseDialog] = useState(false);
 	const [newCourseName, setNewCourseName] = useState("");
-	const [courseIsOpen, setCourseIsOpen] = useState(false);
 	const [courseIndex, setCourseIndex] = useState(-1);
+
+	// Modals
+	const [courseIsOpen, setCourseIsOpen] = useState(false);
+	const [newCourseDialog, setNewCourseDialog] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("open_course", courseIsOpen, () => setCourseIsOpen(false));
+	useModalHash("new_course", newCourseDialog, closeNewCourseDialog);
 
 	// Form validations
 	const [violations, validation, resetValidation] = useValidation({

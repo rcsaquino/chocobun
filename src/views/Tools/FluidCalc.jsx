@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { useState } from "preact/hooks";
 import SwipeableViews from "react-swipeable-views";
-import { useValidation } from "../../functions/customHooks";
+import { useModalHash, useValidation } from "../../functions/customHooks";
 
 function getHolliday(weight) {
 	// Setup holliday variables
@@ -76,8 +76,13 @@ export default function FluidCalc() {
 	const [weight, setWeight] = useState("");
 	const [weightUnit, setWeightUnit] = useState("kg");
 	const [burnedArea, setBurnedArea] = useState("");
-	const [resultsIsOpen, setResultsIsOpen] = useState(false);
 	const [tableData, setTableData] = useState([]);
+
+	// Modals
+	const [resultsIsOpen, setResultsIsOpen] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("fluid_result", resultsIsOpen, () => setResultsIsOpen(false));
 
 	const [violations, validation, resetValidation] = useValidation();
 

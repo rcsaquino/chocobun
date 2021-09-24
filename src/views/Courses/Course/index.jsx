@@ -25,7 +25,11 @@ import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { useState, useEffect } from "preact/hooks";
-import { useAutoFocus, useValidation } from "../../../functions/customHooks";
+import {
+	useAutoFocus,
+	useModalHash,
+	useValidation,
+} from "../../../functions/customHooks";
 import Scores from "./Scores";
 import { useStore } from "../../../store";
 import { TransitionGroup } from "react-transition-group";
@@ -33,19 +37,29 @@ import { deep_clone } from "../../../functions/utilities";
 
 export default function Course({ courseIndex, closeCourse }) {
 	const [store, updateStore] = useStore();
-	const [newContentDialog, setNewContentDialog] = useState(false);
 	const [newContentName, setNewContentName] = useState("");
 	const [newContentWeight, setNewContentWeight] = useState();
 	const [expanded, setExpanded] = useState("");
 	const [finalGrade, setFinalGrade] = useState(0);
-	const [deleteCourseDialog, setDeleteCourseDialog] = useState(false);
+
 	const course = store.courses[courseIndex];
+
+	// Modals
+	const [newContentDialog, setNewContentDialog] = useState(false);
+	const [deleteCourseDialog, setDeleteCourseDialog] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("new_content", newContentDialog, closeNewContentDialog);
+	useModalHash("delete_course", deleteCourseDialog, () =>
+		setDeleteCourseDialog(false)
+	);
 
 	useEffect(() => {
 		let final = 0;
 		course?.syllabi.forEach(content => {
 			final += content.transmutedGrade * (content.weight / 100);
 		});
+		final = Math.round(final * 100) / 100;
 		setFinalGrade(final);
 	}, [course?.syllabi]);
 

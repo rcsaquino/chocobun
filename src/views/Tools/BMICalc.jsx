@@ -21,7 +21,7 @@ import {
 import { useState } from "preact/hooks";
 import SwipeableViews from "react-swipeable-views";
 import BMI_LMS from "../../assets/BMI_LMS.json";
-import { useValidation } from "../../functions/customHooks";
+import { useModalHash, useValidation } from "../../functions/customHooks";
 
 function computeBMI(ht, inches, htUnit, wt, wtUnit) {
 	let m, kg;
@@ -129,7 +129,6 @@ export default function BMICalc() {
 	const [weight, setWeight] = useState("");
 	const [sex, setSex] = useState("Male");
 	const [age, setAge] = useState({ years: "", months: "" });
-	const [resultsIsOpen, setResultsIsOpen] = useState(false);
 
 	// Results variables
 	const [BMI, setBMI] = useState("");
@@ -140,6 +139,12 @@ export default function BMICalc() {
 		who: "",
 		child: "",
 	});
+
+	// Modals
+	const [resultsIsOpen, setResultsIsOpen] = useState(false);
+
+	// Modal Hash Helpers
+	useModalHash("bmi_result", resultsIsOpen, () => setResultsIsOpen(false));
 
 	// Form validations
 	const [violations, validation, resetValidation] = useValidation();
