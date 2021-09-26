@@ -1,3 +1,5 @@
+import ReactGA from "react-ga4";
+
 function transmute_score(yourScore, totalItems, base) {
 	// Force convert variables to integers
 	yourScore = +yourScore;
@@ -72,4 +74,12 @@ function deep_clone(data) {
 	return data && JSON.parse(JSON.stringify(data));
 }
 
-export { transmute_score, content_transmute_score, deep_clone };
+function log_event(category, action) {
+	try {
+		ReactGA.event({ category, action });
+	} catch {
+		console.log("Error logging analytics.");
+	}
+}
+
+export { transmute_score, content_transmute_score, deep_clone, log_event };

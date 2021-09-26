@@ -8,8 +8,20 @@ import {
 	ThemeProvider,
 } from "@mui/material";
 import { Theme } from "./styles/Theme.js";
+import InstallInstructions from "./components/InstallInstructions";
+import InstallProgress from "./components/InstallProgress";
+import { useState } from "preact/hooks";
+import UpdateNotifier from "./components/UpdateNotifier";
 
 export default function App() {
+	const [downloadingComplete, setDownloadingComplete] = useState(false);
+
+	const isInstalled =
+		window.matchMedia("(display-mode: standalone)").matches ||
+		window.navigator.standalone ||
+		document.referrer.includes("android-app://");
+	const devMode = process.env.NODE_ENV !== "production";
+
 	return (
 		<ThemeProvider theme={Theme()}>
 			<AppBar color="background" elevation={0}>
@@ -17,10 +29,25 @@ export default function App() {
 					<Typography variant="h6">Chocobun</Typography>
 				</Toolbar>
 			</AppBar>
-			<Paper sx={styles.mainContainer} elevation={0}>
-				<RouterView />
-			</Paper>
-			<BotNav />
+			{isInstalled || devMode ? (
+				<>
+					<Paper sx={styles.mainContainer} elevation={0}>
+						<RouterView />
+					</Paper>
+					<UpdateNotifier />
+					<BotNav />
+				</>
+			) : (
+				<Paper sx={styles.mainContainer} elevation={0}>
+					{downloadingComplete ? (
+						<InstallInstructions />
+					) : (
+						<InstallProgress
+							completeProgress={() => setDownloadingComplete(true)}
+						/>
+					)}
+				</Paper>
+			)}
 		</ThemeProvider>
 	);
 }

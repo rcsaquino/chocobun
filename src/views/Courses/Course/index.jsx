@@ -33,7 +33,7 @@ import {
 import Scores from "./Scores";
 import { useStore } from "../../../store";
 import { TransitionGroup } from "react-transition-group";
-import { deep_clone } from "../../../functions/utilities";
+import { deep_clone, log_event } from "../../../functions/utilities";
 
 export default function Course({ courseIndex, closeCourse }) {
 	const [store, updateStore] = useStore();
@@ -90,6 +90,8 @@ export default function Course({ courseIndex, closeCourse }) {
 		updateStore("courses", tempCourses);
 		setExpanded(tempCourses[courseIndex].syllabi.length - 1);
 		closeNewContentDialog();
+
+		log_event("course", "course_create_new_content");
 	}
 
 	function deleteCourse() {
@@ -98,6 +100,8 @@ export default function Course({ courseIndex, closeCourse }) {
 		updateStore("courses", tempCourses);
 		setDeleteCourseDialog(false);
 		closeCourse();
+
+		log_event("course", "delete_course");
 	}
 
 	return (

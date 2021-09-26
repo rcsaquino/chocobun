@@ -14,7 +14,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { useState } from "preact/hooks";
-import { transmute_score } from "../functions/utilities";
+import { log_event, transmute_score } from "../functions/utilities";
 import { useModalHash, useValidation } from "../functions/customHooks";
 import { useStore } from "../store";
 
@@ -55,6 +55,8 @@ export default function Transmute() {
 
 		// Show results
 		setResultsIsOpen(true);
+
+		log_event("transmute", "transmute_score");
 	}
 
 	return (

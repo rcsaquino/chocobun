@@ -14,11 +14,12 @@ const views = [
 ];
 
 export default function BotNav() {
-	const [store] = useStore();
+	const [store, updateStore] = useStore();
 
 	// Redirect to home if navigating to invalid url
 	if (!views.some(view => view.link === store.currentPath)) {
 		route("/");
+		updateStore("currentPath", "/");
 	}
 
 	return (

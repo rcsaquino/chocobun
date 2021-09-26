@@ -57,4 +57,4 @@ function Theme() {
 	});
 }
 
-export { Theme };
+export { Theme, themeColors };

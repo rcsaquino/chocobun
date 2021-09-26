@@ -27,7 +27,7 @@ import {
 } from "../../functions/customHooks";
 import { useStore } from "../../store";
 import { TransitionGroup } from "react-transition-group";
-import { deep_clone } from "../../functions/utilities";
+import { deep_clone, log_event } from "../../functions/utilities";
 
 export default function Courses() {
 	const [store, updateStore] = useStore();
@@ -59,6 +59,8 @@ export default function Courses() {
 
 		updateStore("courses", tempCourses);
 		closeNewCourseDialog();
+
+		log_event("course", "create_new_course");
 	}
 
 	function closeNewCourseDialog() {
@@ -88,7 +90,12 @@ export default function Courses() {
 							<TransitionGroup>
 								{store.courses.map((course, index) => (
 									<Collapse in={true} key={index}>
-										<ListItemButton onClick={() => openCourse(index)}>
+										<ListItemButton
+											onClick={() => {
+												openCourse(index);
+												log_event("course", "open_course");
+											}}
+										>
 											<ListItemIcon>
 												<BookRoundedIcon />
 											</ListItemIcon>

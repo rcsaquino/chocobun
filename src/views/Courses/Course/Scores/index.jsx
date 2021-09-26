@@ -24,6 +24,7 @@ import { useStore } from "../../../../store";
 import {
 	content_transmute_score,
 	deep_clone,
+	log_event,
 } from "../../../../functions/utilities";
 import { TransitionGroup } from "react-transition-group";
 
@@ -65,11 +66,13 @@ export default function Content({ courseIndex, contentIndex, closeExpansion }) {
 
 		// Perform method
 		switch (method) {
-			case "create":
+			case "add":
 				ct.scores.push(payload);
+				log_event("course", "course_add_new_score");
 				break;
 			case "remove":
 				ct.scores.splice(payload, 1);
+				log_event("course", "course_remove_score");
 				break;
 			default:
 				console.log("Error! Invalid method!");
@@ -85,9 +88,9 @@ export default function Content({ courseIndex, contentIndex, closeExpansion }) {
 		updateStore("courses", tempCourses);
 	}
 
-	function createNewScore() {
+	function addNewScore() {
 		if (!validation()) return;
-		modifyScore("create", { yourScore, totalItems });
+		modifyScore("add", { yourScore, totalItems });
 		closeNewScoreDialog();
 	}
 
@@ -97,6 +100,8 @@ export default function Content({ courseIndex, contentIndex, closeExpansion }) {
 		updateStore("courses", tempCourses);
 		closeExpansion();
 		setDeleteContentDialog(false);
+
+		log_event("course", "course_delete_content");
 	}
 
 	return (
@@ -172,7 +177,7 @@ export default function Content({ courseIndex, contentIndex, closeExpansion }) {
 				/>
 				<DialogActions>
 					<Button onClick={closeNewScoreDialog}>Cancel</Button>
-					<Button onClick={createNewScore}>Add</Button>
+					<Button onClick={addNewScore}>Add</Button>
 				</DialogActions>
 			</Dialog>
 

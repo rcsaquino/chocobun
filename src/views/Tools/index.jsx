@@ -31,6 +31,7 @@ import LocalDrinkRoundedIcon from "@mui/icons-material/LocalDrinkRounded";
 import Randomizer from "./Randomizer";
 import CasinoRoundedIcon from "@mui/icons-material/CasinoRounded";
 import { useModalHash } from "../../functions/customHooks";
+import { log_event } from "../../functions/utilities";
 
 const tools = [
 	{
@@ -71,6 +72,7 @@ tools.forEach(tool => {
 });
 
 export default function Tools() {
+
 	// Modals
 	const [isOpen, setIsOpen] = useState(initialToolsState);
 
@@ -90,7 +92,10 @@ export default function Tools() {
 					{tools.map((tool, toolIndex) => (
 						<div key={toolIndex}>
 							<ListItemButton
-								onClick={() => setIsOpen({ ...isOpen, [tool.shortName]: true })}
+								onClick={() => {
+									setIsOpen({ ...isOpen, [tool.shortName]: true });
+									log_event("tools", `open_${tool.shortName}`);
+								}}
 							>
 								<ListItemIcon>{tool.icon}</ListItemIcon>
 								<ListItemText>{tool.name}</ListItemText>

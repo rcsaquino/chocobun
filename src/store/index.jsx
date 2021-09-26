@@ -44,12 +44,15 @@ initialState = {
 		initialState.theme instanceof Object
 			? initialState.theme
 			: { mode: "light", color: "chocobun" },
+
 	// Others
 	currentPath: location.pathname,
+	workerStatus: "loading", // installing, installed, activating, activated, error
 };
 
 // Clean up local storage if necessary
-localStorage.length === localStorageItems.length || localStorage.clear();
+// +1 for recentlyUpdated local storage key not handled in store
+localStorage.length === localStorageItems.length + 1 || localStorage.clear();
 
 function StoreProvider({ children }) {
 	// Initialize store

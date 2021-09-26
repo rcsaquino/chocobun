@@ -2,21 +2,26 @@ import { render } from "preact";
 import App from "./App";
 import { CssBaseline } from "@mui/material";
 import { StoreProvider } from "./store";
+import ServiceWorker from "./ServiceWorker";
+import { version } from "../package.json";
+import ReactGA from "react-ga4";
 
 import "./styles/main.css";
 
-import { registerSW } from "virtual:pwa-register";
+document.title = `Chocobun v${version}`;
 
-registerSW();
+const dev =
+	window.location.href.includes("chocobunapp") ||
+	window.location.href.includes("localhost") ||
+	process.env.NODE_ENV !== "production";
 
-// const updateSW = registerSW({
-// 	onNeedRefresh() {},
-// 	onOfflineReady() {},
-// });
+// Analytics
+ReactGA.initialize(dev ? "G-2TJY53QMQC" : "G-M5NGJ7WDGB");
 
 render(
 	<StoreProvider>
 		<CssBaseline />
+		<ServiceWorker />
 		<App />
 	</StoreProvider>,
 	document.getElementById("app")

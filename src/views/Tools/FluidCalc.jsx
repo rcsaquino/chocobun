@@ -20,6 +20,7 @@ import {
 import { useState } from "preact/hooks";
 import SwipeableViews from "react-swipeable-views";
 import { useModalHash, useValidation } from "../../functions/customHooks";
+import { log_event } from "../../functions/utilities";
 
 function getHolliday(weight) {
 	// Setup holliday variables
@@ -99,6 +100,7 @@ export default function FluidCalc() {
 		if (arg === "all") {
 			setWeightUnit("kg");
 		}
+		log_event("fluid_calc", "fluid_clear");
 	}
 
 	function compute() {
@@ -114,8 +116,18 @@ export default function FluidCalc() {
 		// Convert weight to kg
 		const wt = weightUnit === "kg" ? weight : weight / 2.2046226218;
 
-		if (selectedTab === 0) setTableData(getHolliday(wt));
-		if (selectedTab === 1) setTableData(getParkland(wt, burnedArea));
+		if (selectedTab === 0) {
+			setTableData(getHolliday(wt));
+
+			// Log
+			log_event("fluid_calc", "fluid_compute_holliday");
+		}
+		if (selectedTab === 1) {
+			setTableData(getParkland(wt, burnedArea));
+
+			// Log
+			log_event("fluid_calc", "fluid_compute_parkland");
+		}
 
 		// Open results
 		setResultsIsOpen(true);

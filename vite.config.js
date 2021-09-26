@@ -10,10 +10,11 @@ const PWA_CONFIG = {
 		"src/assets/icons/apple-touch-icon.png",
 		"src/assets/robots.txt",
 	],
+	// registerType: "autoUpdate",
 	workbox: {
 		skipWaiting: true,
 		clientsClaim: true,
-		// offlineGoogleAnalytics: true,
+		offlineGoogleAnalytics: true,
 		cleanupOutdatedCaches: true,
 	},
 	manifest: {
