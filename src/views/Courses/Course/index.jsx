@@ -253,7 +253,7 @@ const styles = {
 	},
 	primaryText: {
 		padding: "0 8px",
-		width: "40%",
+		width: "50%",
 		display: "flex",
 	},
 	ellipsis: {

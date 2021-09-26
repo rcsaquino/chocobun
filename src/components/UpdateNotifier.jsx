@@ -25,6 +25,9 @@ export default function UpdateNotifier() {
 				newUpdateFound.current = true;
 				setUpdateFoundInfo(true);
 				break;
+			case "installed":
+				localStorage.recentlyUpdated = 1;
+				break;
 			case "activated":
 				if (newUpdateFound.current) {
 					newUpdateFound.current = false;
@@ -71,10 +74,7 @@ export default function UpdateNotifier() {
 						<CloseRoundedIcon fontSize="small" />
 					</IconButton>
 				}
-				onClick={() => {
-					localStorage.recentlyUpdated = 1;
-					location.reload();
-				}}
+				onClick={() => location.reload()}
 			/>
 			<Snackbar
 				open={appUpdated}
