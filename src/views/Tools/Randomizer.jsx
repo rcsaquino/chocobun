@@ -263,7 +263,7 @@ export default function Randomizer() {
 								))}
 							</Box>
 							<Divider sx={styles.divider} />
-							<Typography variant="subtitle2">
+							<Typography variant="body2">
 								<i>Randomized with https://chocobun.web.app/</i>
 							</Typography>
 						</>

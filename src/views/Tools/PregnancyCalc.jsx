@@ -32,7 +32,7 @@ const monthNames = [
 const currentDate = new Date();
 
 function getNumberOfDays(year, month) {
-	return new Date(year, monthNames.indexOf(month) + 1, 0).getDate();
+	return new Date(year, month + 1, 0).getDate();
 }
 
 function getAOG(lmp) {
@@ -55,9 +55,11 @@ function getEDD(lmp) {
 		.toISOString()
 		.substr(0, 10);
 
-	// year, month, day
+	// Date array is year, month, day [0, 1, ,2]
 	date = date.split("-");
-	results.naegele = `${monthNames[date[1] - 1]} ${date[2]}, ${date[0]}`;
+	results.naegele = `${monthNames[date[1] - 1].substring(0, 3)} ${date[2]}, ${
+		date[0]
+	}`;
 
 	// 280 Days Rule
 	date = new Date(lmp);
@@ -65,9 +67,11 @@ function getEDD(lmp) {
 		.toISOString()
 		.substr(0, 10);
 
-	// year, month, day
+	// Date array is year, month, day [0, 1, 2]
 	date = date.split("-");
-	results.days = `${monthNames[date[1] - 1]} ${date[2]}, ${date[0]}`;
+	results.days = `${monthNames[date[1] - 1].substring(0, 3)} ${date[2]}, ${
+		date[0]
+	}`;
 
 	return results;
 }

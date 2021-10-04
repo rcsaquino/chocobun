@@ -45,6 +45,11 @@ const theme_colors = [
 	{ label: "Water", value: "water" },
 ];
 
+const dev =
+	window.location.href.includes("chocobunapp") ||
+	window.location.href.includes("localhost") ||
+	process.env.NODE_ENV !== "production";
+
 export default function Settings() {
 	const [store, updateStore, setStore] = useStore();
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -196,7 +201,7 @@ export default function Settings() {
 						<Divider />
 						<Box sx={styles.footnotes}>
 							<Typography variant="caption">
-								CHOCOBUN FAM | A4-MED 2021
+								{dev ? "DEVELOPER BUILD" : "CHOCOBUN FAM | A4-MED 2021"}
 							</Typography>
 							<Typography variant="caption">
 								© 2018-{new Date().getFullYear()}
