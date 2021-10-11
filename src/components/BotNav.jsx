@@ -42,7 +42,7 @@ export default function BotNav() {
 const styles = {
 	botNav: {
 		position: "fixed",
-		bottom: 0,
+		bottom: "env(safe-area-inset-bottom)",
 		left: 0,
 		right: 0,
 	},

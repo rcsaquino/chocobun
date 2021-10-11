@@ -193,7 +193,7 @@ export default function Course({ courseIndex, closeCourse }) {
 					id="content-name-field"
 					label="e.g. Quiz, Attendance"
 					size="small"
-					autoFocus
+					// autoFocus // iOS error
 					autoComplete="off"
 					error={violations.newContentName}
 					helperText={violations.newContentName ? "Please enter a name." : ""}

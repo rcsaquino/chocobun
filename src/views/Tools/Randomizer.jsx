@@ -203,7 +203,7 @@ export default function Randomizer() {
 					<TextField
 						id="new-list-label-field"
 						fullWidth
-						autoFocus
+						// autoFocus // iOS error
 						autoComplete="off"
 						size="small"
 						label="Label"

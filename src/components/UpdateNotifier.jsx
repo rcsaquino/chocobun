@@ -4,12 +4,13 @@ import { useStore } from "../store";
 import { themeColors } from "../styles/Theme";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { version } from "../../package.json";
+import { log_event } from "../functions/utilities";
 
 let recentlyUpdated = false;
 if (localStorage.recentlyUpdated && localStorage.recentlyUpdated === "1") {
 	localStorage.recentlyUpdated = 0;
 	recentlyUpdated = true;
-	console.log("recently updated");
+	log_event("update", `updated_to_${version}`);
 }
 
 export default function UpdateNotifier() {

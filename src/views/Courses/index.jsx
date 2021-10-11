@@ -80,7 +80,7 @@ export default function Courses() {
 				<Card variant="outlined">
 					{/* Main View */}
 					<List>
-						<Box sx={{ maxHeight: "70vh", overflowY: "auto" }}>
+						<Box sx={styles.courseListCard}>
 							<ListSubheader sx={styles.subheader}>
 								COURSES
 								<IconButton onClick={() => setNewCourseDialog(true)}>
@@ -134,7 +134,7 @@ export default function Courses() {
 					id="new-course-field"
 					label="e.g. Anatomy, Patho"
 					size="small"
-					autoFocus
+					// autoFocus // iOS error
 					autoComplete="off"
 					error={violations.newCourseName}
 					helperText={violations.newCourseName ? "Please enter a name." : ""}
@@ -167,6 +167,10 @@ export default function Courses() {
 }
 
 const styles = {
+	courseListCard: {
+		maxHeight: "calc(65vh - env(safe-area-inset-bottom))",
+		overflowY: "auto",
+	},
 	subheader: {
 		display: "flex",
 		justifyContent: "space-between",

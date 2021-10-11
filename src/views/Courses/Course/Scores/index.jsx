@@ -155,7 +155,7 @@ export default function Content({ courseIndex, contentIndex, closeExpansion }) {
 					id="your-score-field"
 					label="Your Score"
 					type="number"
-					autoFocus
+					// autoFocus // iOS error
 					autoComplete="off"
 					size="small"
 					value={yourScore}
