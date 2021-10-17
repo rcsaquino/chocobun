@@ -13,14 +13,14 @@ import InstallProgress from "./components/InstallProgress";
 import { useState } from "preact/hooks";
 import UpdateNotifier from "./components/UpdateNotifier";
 
+const isInstalled =
+	window.matchMedia("(display-mode: standalone)").matches ||
+	window.navigator.standalone ||
+	document.referrer.includes("android-app://");
+const devMode = process.env.NODE_ENV !== "production";
+
 export default function App() {
 	const [downloadingComplete, setDownloadingComplete] = useState(false);
-
-	const isInstalled =
-		window.matchMedia("(display-mode: standalone)").matches ||
-		window.navigator.standalone ||
-		document.referrer.includes("android-app://");
-	const devMode = process.env.NODE_ENV !== "production";
 
 	return (
 		<ThemeProvider theme={Theme()}>

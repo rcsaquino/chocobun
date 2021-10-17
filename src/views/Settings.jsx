@@ -36,6 +36,7 @@ import { useState } from "preact/hooks";
 import { useModalHash } from "../functions/customHooks";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { themeColors } from "../styles/Theme";
+import { version } from "../../package.json";
 
 const theme_colors = [
 	{ label: "Chocobun", value: "chocobun" },
@@ -122,7 +123,7 @@ export default function Settings() {
 		<>
 			<Slide in={window.location.pathname === "/settings"} timeout={500}>
 				<Box>
-					<Card variant="outlined">
+					<Card variant="outlined" sx={styles.card}>
 						<List>
 							<ListSubheader>THEME</ListSubheader>
 							<ListItem>
@@ -201,7 +202,9 @@ export default function Settings() {
 						<Divider />
 						<Box sx={styles.footnotes}>
 							<Typography variant="caption">
-								{dev ? "DEVELOPER BUILD" : "CHOCOBUN FAM | A4-MED 2021"}
+								{dev
+									? `DEVELOPER BUILD | VERSION ${version}`
+									: "CHOCOBUN FAM | A4-MED 2021"}
 							</Typography>
 							<Typography variant="caption">
 								© 2018-{new Date().getFullYear()}
@@ -248,6 +251,10 @@ export default function Settings() {
 }
 
 const styles = {
+	card: {
+		maxHeight: "calc(72.5vh - env(safe-area-inset-bottom))",
+		overflowY: "auto",
+	},
 	footButtons: {
 		display: "flex",
 		justifyContent: "space-around",
