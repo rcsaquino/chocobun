@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { useState } from "preact/hooks";
 import { useModalHash } from "../../functions/customHooks";
-import { log_event } from "../../functions/utilities";
 
 const monthNames = [
 	"January",
@@ -98,9 +97,6 @@ export default function PregnancyCalc() {
 		setAOG(getAOG(lmp));
 		setEDD(getEDD(lmp));
 		setResultsIsOpen(true);
-
-		// Log
-		log_event("pregnancy_calc", "calculate_pregnancy");
 	}
 
 	return (

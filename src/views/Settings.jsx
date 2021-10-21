@@ -98,9 +98,6 @@ export default function Settings() {
 
 	function updateThemeColor(newColor) {
 		updateStore("theme", { ...store.theme, color: newColor });
-
-		// Log
-		log_event("settings", "change_theme_color");
 	}
 
 	function sendFeedback() {
@@ -139,7 +136,6 @@ export default function Settings() {
 											...store.theme,
 											mode: store.theme.mode === "dark" ? "light" : "dark",
 										});
-										log_event("settings", "change_theme_mode");
 									}}
 								/>
 							</ListItem>

@@ -22,7 +22,6 @@ import { useState } from "preact/hooks";
 import SwipeableViews from "react-swipeable-views";
 import BMI_LMS from "../../assets/BMI_LMS.json";
 import { useModalHash, useValidation } from "../../functions/customHooks";
-import { log_event } from "../../functions/utilities";
 
 function computeBMI(ht, inches, htUnit, wt, wtUnit) {
 	let m, kg;
@@ -186,9 +185,6 @@ export default function BMICalc() {
 
 			// Classify BMI
 			setClassification(classifyBMI(bodyMassIndex));
-
-			// Log
-			log_event("bmi_calc", "compute_adult_bmi");
 		} else {
 			// Child
 
@@ -207,9 +203,6 @@ export default function BMICalc() {
 
 			// Classify Percentile
 			setClassification(classifyPercentile(rawPercentile));
-
-			// Log
-			log_event("bmi_calc", "compute_child_bmi");
 		}
 		setResultsIsOpen(true);
 	}
@@ -234,7 +227,6 @@ export default function BMICalc() {
 			setWeightUnit("kg");
 			setSex("Male");
 		}
-		log_event("bmi_calc", "clear_bmi_fields");
 	}
 
 	return (

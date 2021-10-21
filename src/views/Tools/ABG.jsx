@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { useState } from "preact/hooks";
 import { useModalHash } from "../../functions/customHooks";
-import { log_event } from "../../functions/utilities";
 
 export default function ABG() {
 	const [age, setAge] = useState("");
@@ -38,7 +37,6 @@ export default function ABG() {
 		setPao2Value("");
 		setHco3Value("");
 		setFio2Value("");
-		log_event("abg", "clear_abg_fields");
 	}
 
 	function analyze() {
@@ -272,10 +270,9 @@ export default function ABG() {
 		setTableData(dataForTable);
 		setPreTableData(dataForPreTable);
 
-		// Open results and log if data is available
+		// Open results if data is available
 		if (dataForTable.length > 0 || dataForPreTable.length > 0) {
 			setResultsIsOpen(true);
-			log_event("abg", "analyze_abg");
 		}
 	}
 

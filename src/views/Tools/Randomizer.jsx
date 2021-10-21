@@ -21,7 +21,7 @@ import { useStore } from "../../store";
 import { useEffect, useState } from "preact/hooks";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import { deep_clone, log_event } from "../../functions/utilities";
+import { deep_clone } from "../../functions/utilities";
 import { useAutoFocus, useModalHash } from "../../functions/customHooks";
 import SwipeableViews from "react-swipeable-views";
 
@@ -78,9 +78,6 @@ export default function Randomizer() {
 		updateStore("lists", tempList);
 		setExpanded(tempList.length - 1);
 		closeNewListDialog();
-
-		// Log
-		log_event("randomizer", "randomizer_create_new_list");
 	}
 
 	function deleteList(listIndex) {
@@ -88,9 +85,6 @@ export default function Randomizer() {
 		tempList.splice(listIndex, 1);
 		updateStore("lists", tempList);
 		setExpanded();
-
-		// Log
-		log_event("randomizer", "randomizer_delete_list");
 	}
 
 	function randomize(listIndex) {
@@ -117,9 +111,6 @@ export default function Randomizer() {
 
 		// Open results
 		setResultsIsOpen(true);
-
-		// Log
-		log_event("randomizer", "randomizer_randomize");
 	}
 
 	function closeResults() {
