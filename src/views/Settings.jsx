@@ -102,7 +102,7 @@ export default function Settings() {
 
 	function sendFeedback() {
 		window.location.href =
-			"mailto:rcsaquino.dev@gmail.com?Subject=[FEEDBACK]%20Chocobun%20App";
+			"mailto:rcsaquino.md@gmail.com?Subject=[FEEDBACK]%20Chocobun%20App";
 	}
 
 	function shareApp() {

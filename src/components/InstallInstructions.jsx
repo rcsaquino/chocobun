@@ -27,7 +27,7 @@ export default function InstallInstructions() {
 			)}
 			<Divider sx={{ marginBottom: "8px" }} />
 			<Typography variant="caption">
-				Need Help? Email: rcsaquino.dev@gmail.com
+				Need Help? Email: rcsaquino.md@gmail.com
 			</Typography>
 		</>
 	);
