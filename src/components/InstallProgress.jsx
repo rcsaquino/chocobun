@@ -52,7 +52,7 @@ export default function InstallProgress({ completeProgress }) {
 						<b> {recommendedBrowser}</b>.
 					</li>
 					<li>Other browsers are not yet supported.</li>
-					<li>Need Help? Email: rcsaquino.dev@gmail.com</li>
+					<li>Need Help? Email: rcsaquino.md@gmail.com</li>
 				</Typography>
 			</Card>
 			<Card variant="outlined" sx={styles.installProgress}>
