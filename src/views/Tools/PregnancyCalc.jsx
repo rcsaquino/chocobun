@@ -49,7 +49,7 @@ function getEDD(lmp) {
 	const results = {};
 
 	// Naegele's Rule
-	date.setDate(date.getDate() + 7);
+	date.setDate(date.getDate() + 7 + 1); // +1 because of the way getDate() works
 	date = new Date(date.setMonth(date.getMonth() + 9))
 		.toISOString()
 		.substr(0, 10);
