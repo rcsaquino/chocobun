@@ -62,7 +62,7 @@ function getEDD(lmp) {
 
 	// 280 Days Rule
 	date = new Date(lmp);
-	date = new Date(date.setDate(date.getDate() + 280))
+	date = new Date(date.setDate(date.getDate() + 280 + 1)) // +1 because of the way getDate() works
 		.toISOString()
 		.substr(0, 10);
 
